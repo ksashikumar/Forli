@@ -1,0 +1,27 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyText
+  description: MyText
+  user_id: 1
+  upvote_count: 1
+  downvote_count: 1
+  answer_count: 1
+  follow_count: 1
+  views: 1
+  score: 1.5
+  deleted: false
+  spam: false
+
+two:
+  name: MyText
+  description: MyText
+  user_id: 1
+  upvote_count: 1
+  downvote_count: 1
+  answer_count: 1
+  follow_count: 1
+  views: 1
+  score: 1.5
+  deleted: false
+  spam: false

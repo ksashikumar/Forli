@@ -9,6 +9,8 @@ gem 'rack-cors'
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'active_model_serializers', '0.10.5'
 gem 'rubocop'
+gem 'elasticsearch'
+gem 'dalli'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

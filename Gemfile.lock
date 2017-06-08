@@ -51,7 +51,18 @@ GEM
     case_transform (0.2)
       activesupport
     concurrent-ruby (1.0.5)
+    dalli (2.7.6)
+    elasticsearch (2.0.2)
+      elasticsearch-api (= 2.0.2)
+      elasticsearch-transport (= 2.0.2)
+    elasticsearch-api (2.0.2)
+      multi_json
+    elasticsearch-transport (2.0.2)
+      faraday
+      multi_json
     erubi (1.6.0)
+    faraday (0.12.1)
+      multipart-post (>= 1.2, < 3)
     ffi (1.9.18)
     globalid (0.4.0)
       activesupport (>= 4.2.0)
@@ -71,6 +82,8 @@ GEM
     mime-types-data (3.2016.0521)
     mini_portile2 (2.2.0)
     minitest (5.10.2)
+    multi_json (1.12.1)
+    multipart-post (2.0.0)
     nio4r (2.1.0)
     nokogiri (1.8.0)
       mini_portile2 (~> 2.2.0)
@@ -151,6 +164,8 @@ DEPENDENCIES
   active_model_serializers (= 0.10.5)
   bcrypt (~> 3.1.7)
   byebug
+  dalli
+  elasticsearch
   listen (>= 3.0.5, < 3.2)
   pg (~> 0.18)
   puma (~> 3.7)
