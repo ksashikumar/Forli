@@ -1,4 +1,4 @@
-class TagsController < ApplicationController
+class DiscussionsController < ApplicationController
 
   def create
   end
@@ -7,6 +7,9 @@ class TagsController < ApplicationController
   end
 
   def show
+  end
+
+  def update
   end
 
   def destroy

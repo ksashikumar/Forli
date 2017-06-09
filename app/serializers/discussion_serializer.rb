@@ -1,0 +1,2 @@
+class DiscussionSerializer < BaseSerializer
+end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170608183355) do
+ActiveRecord::Schema.define(version: 20170609170202) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -18,29 +18,57 @@ ActiveRecord::Schema.define(version: 20170608183355) do
   create_table "categories", force: :cascade do |t|
     t.string "name", limit: 30, null: false
     t.text "description"
-    t.integer "parent_id", null: false
+    t.string "ancestry"
     t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["ancestry"], name: "index_categories_on_ancestry"
     t.index ["name"], name: "index_categories_on_name", unique: true
     t.index ["user_id"], name: "index_categories_on_user_id"
   end
 
-  create_table "questions", force: :cascade do |t|
-    t.text "name", null: false
+  create_table "comments", force: :cascade do |t|
+    t.text "content", null: false
+    t.string "ancestry"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["ancestry"], name: "index_comments_on_ancestry"
+    t.index ["user_id"], name: "index_comments_on_user_id"
+  end
+
+  create_table "discussions", force: :cascade do |t|
+    t.text "title", null: false
     t.text "description", null: false
     t.bigint "user_id"
-    t.integer "upvote_count", default: 0
-    t.integer "downvote_count", default: 0
-    t.integer "answer_count", default: 0
-    t.integer "follow_count", default: 0
+    t.integer "upvotes_count", default: 0
+    t.integer "downvotes_count", default: 0
+    t.integer "posts_count", default: 0
+    t.integer "comments_count", default: 0
+    t.integer "follows_count", default: 0
+    t.integer "views", default: 0
+    t.float "score", default: 0.0
+    t.boolean "pinned", default: false
+    t.boolean "deleted", default: false
+    t.boolean "spam", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_discussions_on_user_id"
+  end
+
+  create_table "posts", force: :cascade do |t|
+    t.text "content", null: false
+    t.bigint "user_id"
+    t.integer "upvotes_count", default: 0
+    t.integer "downvotes_count", default: 0
+    t.integer "comments_count", default: 0
     t.integer "views", default: 0
     t.float "score", default: 0.0
     t.boolean "deleted", default: false
     t.boolean "spam", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_questions_on_user_id"
+    t.index ["user_id"], name: "index_posts_on_user_id"
   end
 
   create_table "tags", force: :cascade do |t|
@@ -64,7 +92,8 @@ ActiveRecord::Schema.define(version: 20170608183355) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
-  add_foreign_key "categories", "categories", column: "parent_id"
   add_foreign_key "categories", "users"
-  add_foreign_key "questions", "users"
+  add_foreign_key "comments", "users"
+  add_foreign_key "discussions", "users"
+  add_foreign_key "posts", "users"
 end

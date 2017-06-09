@@ -1,5 +1,5 @@
-class QuestionsController < ApplicationController
-
+class PostsController < ApplicationController
+  
   def create
   end
 

@@ -1,12 +1,12 @@
 Rails.application.routes.draw do
 
   api_routes = proc do
-    resources :questions do
+    resources :discussions do
+      resources :posts
     end
-    resources :categories do
-    end
-    resources :tag do
-    end
+    resources :comments
+    resources :categories
+    resources :tags
   end
 
   scope '/api', defaults: { version: 'v1', format: 'json' }, constraints: { format: /(json|$^)/ } do
