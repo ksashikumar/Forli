@@ -1,0 +1,2 @@
+class QuestionSerializer < BaseSerializer
+end
