@@ -12,6 +12,10 @@ gem 'rubocop'
 gem 'dalli'
 gem 'devise_token_auth'
 gem 'ancestry'
+gem 'mongoid'
+gem 'bunny'
+gem 'sidekiq'
+gem 'sinatra', require: false
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

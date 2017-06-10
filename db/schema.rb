@@ -31,9 +31,13 @@ ActiveRecord::Schema.define(version: 20170609170202) do
     t.text "content", null: false
     t.string "ancestry"
     t.bigint "user_id"
+    t.integer "commentable_id"
+    t.string "commentable_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["ancestry"], name: "index_comments_on_ancestry"
+    t.index ["commentable_id"], name: "index_comments_on_commentable_id"
+    t.index ["commentable_type"], name: "index_comments_on_commentable_type"
     t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
@@ -41,6 +45,7 @@ ActiveRecord::Schema.define(version: 20170609170202) do
     t.text "title", null: false
     t.text "description", null: false
     t.bigint "user_id"
+    t.integer "category_id"
     t.integer "upvotes_count", default: 0
     t.integer "downvotes_count", default: 0
     t.integer "posts_count", default: 0
@@ -53,12 +58,14 @@ ActiveRecord::Schema.define(version: 20170609170202) do
     t.boolean "spam", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["category_id"], name: "index_discussions_on_category_id"
     t.index ["user_id"], name: "index_discussions_on_user_id"
   end
 
   create_table "posts", force: :cascade do |t|
     t.text "content", null: false
     t.bigint "user_id"
+    t.bigint "discussion_id"
     t.integer "upvotes_count", default: 0
     t.integer "downvotes_count", default: 0
     t.integer "comments_count", default: 0
@@ -68,6 +75,7 @@ ActiveRecord::Schema.define(version: 20170609170202) do
     t.boolean "spam", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["discussion_id"], name: "index_posts_on_discussion_id"
     t.index ["user_id"], name: "index_posts_on_user_id"
   end
 
@@ -94,6 +102,8 @@ ActiveRecord::Schema.define(version: 20170609170202) do
 
   add_foreign_key "categories", "users"
   add_foreign_key "comments", "users"
+  add_foreign_key "discussions", "categories"
   add_foreign_key "discussions", "users"
+  add_foreign_key "posts", "discussions"
   add_foreign_key "posts", "users"
 end

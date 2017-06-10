@@ -1,0 +1,2 @@
+class DraftsController < ApplicationController
+end
