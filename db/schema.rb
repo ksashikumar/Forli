@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170609170202) do
+ActiveRecord::Schema.define(version: 20170611142528) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -18,26 +18,30 @@ ActiveRecord::Schema.define(version: 20170609170202) do
   create_table "categories", force: :cascade do |t|
     t.string "name", limit: 30, null: false
     t.text "description"
-    t.string "ancestry"
+    t.integer "visibility", default: 0
+    t.integer "level", default: 0
+    t.integer "parent_id"
     t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["ancestry"], name: "index_categories_on_ancestry"
     t.index ["name"], name: "index_categories_on_name", unique: true
+    t.index ["parent_id"], name: "index_categories_on_parent_id"
     t.index ["user_id"], name: "index_categories_on_user_id"
+    t.index ["visibility"], name: "index_categories_on_visibility"
   end
 
   create_table "comments", force: :cascade do |t|
     t.text "content", null: false
-    t.string "ancestry"
+    t.integer "level", default: 0
+    t.integer "parent_id"
     t.bigint "user_id"
     t.integer "commentable_id"
     t.string "commentable_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["ancestry"], name: "index_comments_on_ancestry"
     t.index ["commentable_id"], name: "index_comments_on_commentable_id"
     t.index ["commentable_type"], name: "index_comments_on_commentable_type"
+    t.index ["parent_id"], name: "index_comments_on_parent_id"
     t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
@@ -54,11 +58,18 @@ ActiveRecord::Schema.define(version: 20170609170202) do
     t.integer "views", default: 0
     t.float "score", default: 0.0
     t.boolean "pinned", default: false
+    t.boolean "locked", default: false
+    t.boolean "published", default: false
     t.boolean "deleted", default: false
     t.boolean "spam", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["category_id"], name: "index_discussions_on_category_id"
+    t.index ["deleted"], name: "index_discussions_on_deleted"
+    t.index ["pinned"], name: "index_discussions_on_pinned"
+    t.index ["published"], name: "index_discussions_on_published"
+    t.index ["score"], name: "index_discussions_on_score"
+    t.index ["spam"], name: "index_discussions_on_spam"
     t.index ["user_id"], name: "index_discussions_on_user_id"
   end
 
@@ -75,7 +86,10 @@ ActiveRecord::Schema.define(version: 20170609170202) do
     t.boolean "spam", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["deleted"], name: "index_posts_on_deleted"
     t.index ["discussion_id"], name: "index_posts_on_discussion_id"
+    t.index ["score"], name: "index_posts_on_score"
+    t.index ["spam"], name: "index_posts_on_spam"
     t.index ["user_id"], name: "index_posts_on_user_id"
   end
 
