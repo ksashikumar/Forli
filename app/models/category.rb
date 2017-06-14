@@ -5,6 +5,7 @@ class Category < ApplicationRecord
   enum visibility: [:open, :moderator_only, :admin_only]
 
   belongs_to :user
+  # Need to check if giving invalid parent_id is accepted
   belongs_to :parent, class_name: 'Category', optional: true
   has_many   :categories, class_name: 'Category', foreign_key: :parent_id, dependent: :destroy
 
