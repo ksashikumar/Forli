@@ -30,7 +30,7 @@ class CreateUsers < ActiveRecord::Migration[5.1]
       t.boolean  :deleted
 
       ## Tokens
-      t.json :tokens
+      t.text :tokens
 
       t.timestamps
     end

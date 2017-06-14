@@ -18,6 +18,7 @@ class ApplicationController < ActionController::API
   before_action :load_object,  only: [:show, :update, :delete]
   before_action :load_objects, only: :index
   before_action :build_object, only: :create
+  before_action :configure_permitted_parameters, if: :devise_controller?
 
   def current_user
     # hack for now.
@@ -37,10 +38,24 @@ class ApplicationController < ActionController::API
     render(status: 500)
   end
 
+  def build_object
+  end
+
+  def load_object
+  end
+
   protected
 
   def cname_params
-    params.require(controller_name.singularize).permit(*allowed_params)
+    params[cname].present? && params.require(cname).permit(*allowed_params)
   end
+
+  def cname
+    @cname ||= controller_name.singularize
+  end
+
+  def configure_permitted_parameters
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:confirm_success_url])
+  end  
 
 end

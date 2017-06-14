@@ -4,7 +4,7 @@ class CreateDiscussions < ActiveRecord::Migration[5.1]
       t.text :title, null: false
       t.text :description, null: false
       t.references :user, index: true, foreign_key: true
-      t.integer :category_id, null: true
+      t.column :category_id, "bigint"
       t.integer :upvotes_count, default: 0
       t.integer :downvotes_count, default: 0
       t.integer :posts_count, default: 0
