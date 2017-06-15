@@ -20,12 +20,7 @@ class ApplicationController < ActionController::API
   before_action :build_object, only: :create
   before_action :configure_permitted_parameters, if: :devise_controller?
 
-  def current_user
-    # hack for now.
-    User.first
-  end
-
-  def render_errors(item)
+  def render_errors(item, status=400)
     # TODO: handle proper error response format
     render(json: item.errors, status: 400)
   end
@@ -55,7 +50,10 @@ class ApplicationController < ActionController::API
   end
 
   def configure_permitted_parameters
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:confirm_success_url])
-  end  
+    devise_parameter_sanitizer.permit(:sign_up)
+  end
 
+  def admin?
+    current_user ? current_user.admin? : false
+  end
 end

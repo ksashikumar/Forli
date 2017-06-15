@@ -12,7 +12,10 @@
 
 ActiveRecord::Schema.define(version: 20170611142528) do
 
-  create_table "categories", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
+  create_table "categories", force: :cascade do |t|
     t.string "name", limit: 30, null: false
     t.text "description"
     t.integer "visibility", default: 0
@@ -27,7 +30,7 @@ ActiveRecord::Schema.define(version: 20170611142528) do
     t.index ["visibility"], name: "index_categories_on_visibility"
   end
 
-  create_table "comments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "comments", force: :cascade do |t|
     t.text "content", null: false
     t.integer "level", default: 0
     t.integer "parent_id"
@@ -42,7 +45,7 @@ ActiveRecord::Schema.define(version: 20170611142528) do
     t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
-  create_table "discussions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "discussions", force: :cascade do |t|
     t.text "title", null: false
     t.text "description", null: false
     t.bigint "user_id"
@@ -53,8 +56,7 @@ ActiveRecord::Schema.define(version: 20170611142528) do
     t.integer "comments_count", default: 0
     t.integer "follows_count", default: 0
     t.integer "views", default: 0
-    t.float "score", limit: 24, default: 0.0
-    t.boolean "pinned", default: false
+    t.float "score", default: 0.0
     t.boolean "locked", default: false
     t.boolean "published", default: false
     t.boolean "deleted", default: false
@@ -63,14 +65,13 @@ ActiveRecord::Schema.define(version: 20170611142528) do
     t.datetime "updated_at", null: false
     t.index ["category_id"], name: "index_discussions_on_category_id"
     t.index ["deleted"], name: "index_discussions_on_deleted"
-    t.index ["pinned"], name: "index_discussions_on_pinned"
     t.index ["published"], name: "index_discussions_on_published"
     t.index ["score"], name: "index_discussions_on_score"
     t.index ["spam"], name: "index_discussions_on_spam"
     t.index ["user_id"], name: "index_discussions_on_user_id"
   end
 
-  create_table "posts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "posts", force: :cascade do |t|
     t.text "content", null: false
     t.bigint "user_id"
     t.bigint "discussion_id"
@@ -78,7 +79,7 @@ ActiveRecord::Schema.define(version: 20170611142528) do
     t.integer "downvotes_count", default: 0
     t.integer "comments_count", default: 0
     t.integer "views", default: 0
-    t.float "score", limit: 24, default: 0.0
+    t.float "score", default: 0.0
     t.boolean "deleted", default: false
     t.boolean "spam", default: false
     t.datetime "created_at", null: false
@@ -90,7 +91,7 @@ ActiveRecord::Schema.define(version: 20170611142528) do
     t.index ["user_id"], name: "index_posts_on_user_id"
   end
 
-  create_table "tags", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "tags", force: :cascade do |t|
     t.string "name", limit: 30, null: false
     t.integer "count", default: 0
     t.datetime "created_at", null: false
@@ -98,15 +99,22 @@ ActiveRecord::Schema.define(version: 20170611142528) do
     t.index ["name"], name: "index_tags_on_name", unique: true
   end
 
-  create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "users", force: :cascade do |t|
     t.string "provider", default: "email", null: false
     t.string "uid", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.integer "sign_in_count", default: 0, null: false
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string "current_sign_in_ip"
+    t.string "last_sign_in_ip"
     t.string "confirmation_token"
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
+    t.string "unconfirmed_email"
     t.string "name"
     t.string "nickname"
     t.string "image"
