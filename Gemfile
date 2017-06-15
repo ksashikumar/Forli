@@ -1,8 +1,8 @@
 source 'https://rubygems.org'
 
 gem 'rails', '~> 5.1.1'
-gem 'mysql2', '~> 0.3.0'
-gem 'puma', '~> 3.7'
+gem 'pg', '~> 0.18.3'
+gem 'puma'
 gem 'redis', '~> 3.0'
 gem 'bcrypt', '~> 3.1.7'
 gem 'rack-cors'
