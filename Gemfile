@@ -17,6 +17,7 @@ gem 'mongoid'
 gem 'bunny'
 gem 'sidekiq'
 gem 'sinatra', require: false
+gem 'kaminari'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

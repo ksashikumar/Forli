@@ -54,6 +54,10 @@ class ApplicationController < ActionController::API
   end
 
   def admin?
-    current_user ? current_user.admin? : false
+    current_user.admin?
+  end
+
+  def moderator?
+    current_user.moderator?
   end
 end
