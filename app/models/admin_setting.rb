@@ -1,2 +1,0 @@
-class AdminSetting < ApplicationRecord
-end

@@ -9,6 +9,8 @@ Rails.application.routes.draw do
       resources :comments
       resources :categories
       resources :tags
+
+      resources :admin_settings, only: [:update, :show, :index]
     end
   end
 end

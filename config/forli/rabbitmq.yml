@@ -1,0 +1,18 @@
+defaults: &defaults
+  connection_config:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+    automatically_recover: true
+    recover_from_connection_close: true
+    heartbeat: 30
+    threaded: false
+  shards: 1
+  secret_key: UIQX9K3VE716I1CB1X1DMB4EGL9963FP
+
+development:
+  <<: *defaults
+
+test:
+  <<: *defaults

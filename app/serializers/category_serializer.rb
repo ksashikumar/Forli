@@ -1,9 +1,5 @@
 class CategorySerializer < BaseSerializer
-  attributes :name, :description, :visibility, :children
+  attributes :name, :description
   belongs_to :user
-
-  def children
-    # TODO : This is not correct. Need to revisit with recursive logic
-    object.children
-  end
+  has_many   :categories, serializer: CategorySerializer
 end

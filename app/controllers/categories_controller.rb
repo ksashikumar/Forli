@@ -48,6 +48,11 @@ class CategoriesController < ApplicationController
 
   def build_object
     @item = Category.new(cname_params)
+    if cname_params[:parent_id]
+      parent = Category.find_by_id(cname_params[:parent_id])
+      render_404 unless parent
+      @item.parent = parent
+    end
   end
 
   def allowed_params

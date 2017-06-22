@@ -1,46 +1,38 @@
 class Category < ApplicationRecord
 
-  MAX_LEVEL = 5
-
-  enum visibility: [:open, :moderator_only, :admin_only]
+  MAX_CHILDREN = 5
 
   belongs_to :user
-  # Need to check if giving invalid parent_id is accepted
   belongs_to :parent, class_name: 'Category', optional: true
   has_many   :categories, class_name: 'Category', foreign_key: :parent_id, dependent: :destroy
 
+  before_validation :calculate_child_count, if: :parent_present?
   validates_uniqueness_of :name
-  validate :check_parent_visibility
-  validate :validate_level
+  validate :check_hierarchy, if: :parent_present?
 
-  before_validation :calculate_level
+  after_create :update_parent, if: :parent_present?
 
-  def check_parent_visibility
-    if parent.present?
-      if open? && (parent.moderator_only? || parent.admin_only?)
-        self.errors.add(:visibility, :not_allowed, message: 'Could not be associated')
-        return false
-      end
-      if moderator_only? && parent.admin_only?
-        self.errors.add(:visibility, :not_allowed, message: 'Could not be associated')
-        return false
-      end
-    end
+  def calculate_child_count
+    parent_child_count = parent.child_count
+    parent.child_count = parent.child_count + 1
   end
 
-  def validate_level
-    if self.level > MAX_LEVEL
-      self.errors.add(:level, :limit_reached, message: 'Maximum child level reached')
+  def check_hierarchy
+    if parent.parent_id.present?
+      self.errors.add(:parent, :not_allowed, message: 'Could not be associated')
+      return false
+    end
+    if parent.child_count > MAX_CHILDREN
+      self.errors.add(:parent, :not_allowed, message: 'Numer of children limit reached')
       return false
     end
   end
 
-  def calculate_level
-    self.level = parent ? (parent.level + 1) : 0
+  def update_parent
+    parent.save!
   end
 
-  def children
-    self.categories.where(['level > ?', level])
+  def parent_present?
+    parent.present?
   end
-
 end
