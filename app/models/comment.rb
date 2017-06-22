@@ -7,14 +7,14 @@ class Comment < ApplicationRecord
   belongs_to :parent, class_name: 'Comment', optional: true
   has_many   :comments, class_name: 'Comment', foreign_key: :parent_id, dependent: :destroy
 
-  before_validation :calculate_level
+  before_validation :calculate_level, if: :parent_present?
 
   validate :validate_level
 
-  before_create :change_parent_count, if: parent.present?
+  after_create :update_parent, if: :parent_present?
 
   def calculate_level
-    self.level = parent ? (parent.level + 1) : 0
+    self.level = parent.level + 1
   end
 
   def validate_level
@@ -24,9 +24,13 @@ class Comment < ApplicationRecord
     end
   end
 
-  def change_parent_count
-    parent_child_count = parent.child_count
-    parent.child_count = parent_child_count + 1
+  def update_parent
+    parent_child_count = parent.child_count + 1
+    parent.update_columns(child_count: parent_child_count)
   end
 
+  private
+    def parent_present?
+      parent.present?
+    end
 end
