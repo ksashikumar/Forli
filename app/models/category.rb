@@ -30,7 +30,7 @@ class Category < ApplicationRecord
 
   def update_parent
     # Need to revisit
-    parent.save!
+    parent.save
   end
 
   private
