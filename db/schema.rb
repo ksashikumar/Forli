@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170611142518) do
+ActiveRecord::Schema.define(version: 20170717035337) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -71,6 +71,14 @@ ActiveRecord::Schema.define(version: 20170611142518) do
     t.index ["user_id"], name: "index_discussions_on_user_id"
   end
 
+  create_table "notifications", force: :cascade do |t|
+    t.text "content"
+    t.bigint "discussion_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["discussion_id"], name: "index_notifications_on_discussion_id"
+  end
+
   create_table "posts", force: :cascade do |t|
     t.text "content", null: false
     t.bigint "user_id"
@@ -97,6 +105,16 @@ ActiveRecord::Schema.define(version: 20170611142518) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["name"], name: "index_tags_on_name", unique: true
+  end
+
+  create_table "user_notifications", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "notification_id"
+    t.boolean "is_read"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["notification_id"], name: "index_user_notifications_on_notification_id"
+    t.index ["user_id"], name: "index_user_notifications_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -137,6 +155,7 @@ ActiveRecord::Schema.define(version: 20170611142518) do
   add_foreign_key "comments", "users"
   add_foreign_key "discussions", "categories"
   add_foreign_key "discussions", "users"
+  add_foreign_key "notifications", "discussions"
   add_foreign_key "posts", "discussions"
   add_foreign_key "posts", "users"
 end

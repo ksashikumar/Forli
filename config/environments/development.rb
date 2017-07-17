@@ -51,6 +51,8 @@ Rails.application.configure do
 
   config.log_tags = [:uuid]
 
+  config.log_level = :debug
+
   config.after_initialize do
     Bullet.enable         = true
     Bullet.rails_logger   = true
