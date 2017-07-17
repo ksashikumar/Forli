@@ -29,7 +29,7 @@ class CreateUsers < ActiveRecord::Migration[5.1]
       t.string   :unconfirmed_email
 
       ## User Info
-      t.string   :name
+      t.string   :name, :null => false
       t.string   :nickname
       t.string   :image
       t.string   :email
@@ -46,6 +46,7 @@ class CreateUsers < ActiveRecord::Migration[5.1]
     end
 
     add_index :users, :email,                unique: true
+    add_index :users, :name,                 unique: true
     add_index :users, [:uid, :provider],     unique: true
     add_index :users, :reset_password_token, unique: true
     add_index :users, :confirmation_token,   unique: true

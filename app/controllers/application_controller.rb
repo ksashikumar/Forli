@@ -14,8 +14,6 @@ class ApplicationController < ActionController::API
 
   # rescue_from StandardError, with: :render_500
 
-  before_action :validate_body_params, only: [:create, :update]
-  before_action :validate_url_params,  only: [:index, :show]
   before_action :load_object,  only: [:show, :update, :delete]
   before_action :load_objects, only: :index
   before_action :build_object, only: :create
@@ -42,16 +40,10 @@ class ApplicationController < ActionController::API
 
   protected
 
-  def validate_body_params
-    params[cname].present? && params.require(cname).permit(*allowed_params)
-  end
-
-  def validate_url_params
-    params.permit(*allowed_params)
-  end
-
   def cname_params
-    params[cname].present? ? params[cname] : params
+    @cname_params ||= begin
+      params[cname].present? ? params.require(cname).permit(*allowed_params) : params.permit(*allowed_params)
+    end
   end
 
   def cname

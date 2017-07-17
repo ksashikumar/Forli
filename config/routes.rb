@@ -4,11 +4,22 @@ Rails.application.routes.draw do
   scope '/api' do
     scope '/v1' do
       resources :discussions do
-        resources :posts
+        resources :comments do
+          member do
+            get :children
+          end
+        end
+        resources :posts do
+          resources :comments do
+            member do
+              get :children
+            end
+          end
+        end
       end
-      resources :comments
       resources :categories
       resources :tags
+      resources :users
 
       resources :admin_settings, only: [:update, :show, :index]
     end

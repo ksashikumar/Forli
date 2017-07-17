@@ -1,6 +1,6 @@
 class PostsController < ApplicationController
   
-  before_action :authenticate_user!, only: [:create, :update]
+  # before_action :authenticate_user!, only: [:create, :update]
 
   def create
     @item.user = current_user if cname_params[:user_id].nil?
@@ -52,7 +52,13 @@ class PostsController < ApplicationController
   end
 
   def build_object
-    @item = Post.new(cname_params)
+    @parent = Discussion.find_by_id(params[:discussion_id])
+    if @parent
+      @item = Post.new(cname_params)
+      @item.discussion = @parent
+    else
+      render_404
+    end
   end
 
   def allowed_params

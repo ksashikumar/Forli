@@ -15,6 +15,9 @@ class CommentsController < ApplicationController
     render(json: @items)
   end
 
+  def children
+  end
+
   def show
     render(json: @item)
   end
@@ -38,8 +41,11 @@ class CommentsController < ApplicationController
   protected
 
   def load_commentable
-    @commentable = (cname_params[:commentable][:type]).constantize.find_by_id(cname_params[:commentable][:id])
-    cname_params.slice!(:commentable)
+    @commentable = if cname_params[:post_id]
+      Post.find_by_id(cname_params[:post_id])
+    else
+      Discussion.find_by_id(cname_params[:discussion_id])
+    end
     render_404 unless @commentable
   end
 

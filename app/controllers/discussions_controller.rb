@@ -1,6 +1,6 @@
 class DiscussionsController < ApplicationController
 
-  before_action :authenticate_user!, only: [:create, :update]
+  # before_action :authenticate_user!, only: [:create, :update]
 
   def create
     @item.user = current_user if cname_params[:user_id].nil?
