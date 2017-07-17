@@ -39,6 +39,7 @@ class DiscussionsController < ApplicationController
 
   def load_object
     @item = Discussion.find_by_id(params[:id])
+    assign_tags
     render_404 unless @item
   end
 
@@ -48,6 +49,15 @@ class DiscussionsController < ApplicationController
 
   def build_object
     @item = Discussion.new(cname_params)
+    assign_tags
+  end
+
+  def assign_tags
+    if cname_params[:tags].present?
+      cname_params.extract!(:tags)
+      tags = Tag.where(cname_params[:tags])
+      @item.tags = tags
+    end
   end
 
   def allowed_params

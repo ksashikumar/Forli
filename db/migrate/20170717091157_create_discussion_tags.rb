@@ -7,5 +7,6 @@ class CreateDiscussionTags < ActiveRecord::Migration[5.1]
     end
     add_index :discussion_tags, :discussion_id
     add_index :discussion_tags, :tag_id
+    add_index :discussion_tags, [:discussion_id, :tag_id], unique: true
   end
 end

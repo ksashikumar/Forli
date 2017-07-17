@@ -3,7 +3,6 @@ class TagsController < ApplicationController
   # before_action :authenticate_user!, only: [:create, :update]
 
   def create
-    @item.user = current_user if cname_params[:user_id].nil?
     if @item.save
       render(json: @item)
     else
@@ -43,7 +42,7 @@ class TagsController < ApplicationController
   end
 
   def load_objects
-    @items = Tag.preload(:user)
+    @items = Tag.all
   end
 
   def build_object

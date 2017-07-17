@@ -6,6 +6,9 @@ class Category < ApplicationRecord
   belongs_to :parent, class_name: 'Category', optional: true
   has_many   :categories, class_name: 'Category', foreign_key: :parent_id, dependent: :destroy
 
+  has_many :user_categories
+  has_many :users, through: :user_categories
+
   before_validation :change_parent_child_count, if: :parent_present?
   validates_uniqueness_of :name
   validate :check_hierarchy, if: :parent_present?
