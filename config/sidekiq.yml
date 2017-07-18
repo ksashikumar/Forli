@@ -1,0 +1,17 @@
+defaults: &defaults
+  :host: localhost
+  :port: 6379
+  :verbose: true
+  :logfile: ./log/sidekiq.log
+  :timeout: 30
+  :queues:
+    - [notification_worker]
+
+development:
+  <<: *defaults
+
+staging:
+  <<: *defaults
+
+production:
+  <<: *defaults
