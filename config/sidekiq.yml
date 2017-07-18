@@ -6,6 +6,7 @@ defaults: &defaults
   :timeout: 30
   :queues:
     - [notification_worker]
+    - [vote_dump]
 
 development:
   <<: *defaults

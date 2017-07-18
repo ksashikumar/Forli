@@ -17,10 +17,14 @@ Rails.application.routes.draw do
           end
           member do
             put :hit
+            put :upvote
+            put :downvote
           end
         end
         member do
           put :hit
+          put :upvote
+          put :downvote
         end
       end
       resources :categories
