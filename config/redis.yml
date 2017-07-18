@@ -8,3 +8,5 @@ development:
 test:
   <<: *defaults
 
+  production:
+    host: <%= ENV['REDIS_URL'] %>
