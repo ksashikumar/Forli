@@ -18,6 +18,7 @@ gem 'bunny'
 gem 'sidekiq'
 gem 'sinatra', require: false
 gem 'kaminari'
+gem 'will_filter', git: 'git@github.com:PratheepV/will_filter.git'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

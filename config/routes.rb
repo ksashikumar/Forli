@@ -21,7 +21,7 @@ Rails.application.routes.draw do
       resources :tags
       resources :users
 
-      resources :admin_settings, only: [:update, :show, :index]
+      resources :settings, only: [:update, :show, :index]
     end
   end
 end

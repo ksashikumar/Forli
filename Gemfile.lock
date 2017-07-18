@@ -1,3 +1,12 @@
+GIT
+  remote: git@github.com:PratheepV/will_filter.git
+  revision: 55d83513099aac7b42cf8d6170aeb846f8bc83e7
+  specs:
+    will_filter (4.0.1)
+      kaminari
+      rails (>= 3.2.3)
+      sass
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -191,6 +200,11 @@ GEM
       unicode-display_width (~> 1.0, >= 1.0.1)
     ruby-progressbar (1.8.1)
     ruby_dep (1.5.0)
+    sass (3.5.1)
+      sass-listen (~> 4.0.0)
+    sass-listen (4.0.0)
+      rb-fsevent (~> 0.9, >= 0.9.4)
+      rb-inotify (~> 0.9, >= 0.9.7)
     sidekiq (5.0.2)
       concurrent-ruby (~> 1.0)
       connection_pool (~> 2.2, >= 2.2.0)
@@ -253,6 +267,7 @@ DEPENDENCIES
   spring
   spring-watcher-listen (~> 2.0.0)
   tzinfo-data
+  will_filter!
 
 BUNDLED WITH
    1.15.1

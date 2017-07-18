@@ -1,0 +1,2 @@
+class Automations::ActionData
+end
