@@ -1,4 +1,4 @@
 module Redis
-  module RedisKeys
+  module Keys
   end
 end

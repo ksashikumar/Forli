@@ -15,6 +15,12 @@ Rails.application.routes.draw do
               get :children
             end
           end
+          member do
+            put :hit
+          end
+        end
+        member do
+          put :hit
         end
       end
       resources :categories

@@ -3,4 +3,5 @@ module PostConstants
   UPDATE_FIELDS = [:content, :user_id, mentions: []].freeze
   SHOW_FIELDS   = [].freeze
   INDEX_FIELDS  = [].freeze
+  HIT_FIELDS    = [].freeze  
 end.freeze
