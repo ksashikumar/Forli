@@ -73,6 +73,8 @@ ActiveRecord::Schema.define(version: 20170717035337) do
 
   create_table "notifications", force: :cascade do |t|
     t.text "content"
+    t.integer "notify_to"
+    t.string "notifiable_type"
     t.bigint "discussion_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
