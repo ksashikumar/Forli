@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user_id: one
+  notification_id: one
+  is_read: false
+
+two:
+  user_id: two
+  notification_id: two
+  is_read: false

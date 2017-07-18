@@ -5,4 +5,5 @@ class Discussion < ApplicationRecord
   has_many :comments, as: :commentable
   has_many :discussion_tags
   has_many :tags, through: :discussion_tags
+  has_many :notifications
 end
