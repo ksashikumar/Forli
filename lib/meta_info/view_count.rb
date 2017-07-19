@@ -10,6 +10,10 @@ class MetaInfo::ViewCount
     self.viewable_type = options[:viewable_type]
   end
 
+  def count
+    get_redis_count + viewable.find_by_id(viewable_id).views
+  end
+
   def hit!
     new_count = increment_redis_count
     if new_count == BATCH_THRESHOLD_VALUE
