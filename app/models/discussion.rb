@@ -14,7 +14,7 @@ class Discussion < ApplicationRecord
   after_commit :perform_spam_check, on: :create #, :if => :spam_filter_enabled?
 
   def content
-    title + description
+    "#{title} #{description}"
   end
 
 end

@@ -9,7 +9,7 @@ module SpamFilter::Util
       comment_type: 'comment',
       comment_author: self.user.name,
       comment_author_email: self.user.email,
-      comment_content: content,
+      comment_content: self.content,
       key: Akismet::KEY
     }
   end
