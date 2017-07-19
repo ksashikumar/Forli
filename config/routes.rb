@@ -19,12 +19,14 @@ Rails.application.routes.draw do
             put :hit
             put :upvote
             put :downvote
+            put :view
           end
         end
         member do
           put :hit
           put :upvote
           put :downvote
+          put :view
         end
       end
       resources :categories

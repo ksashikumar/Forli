@@ -14,7 +14,7 @@ class ApplicationController < ActionController::API
 
   # rescue_from StandardError, with: :render_500
 
-  before_action :load_object,  only: [:show, :update, :delete]
+  before_action :load_object,  only: [:show, :update, :delete, :upvote, :downvote, :view]
   before_action :load_objects, only: :index
   before_action :build_object, only: :create
   before_action :configure_permitted_parameters, if: :devise_controller?
@@ -26,6 +26,10 @@ class ApplicationController < ActionController::API
 
   def render_404
     render(nothing: true, status: 404)
+  end
+
+  def render_201
+    render(nothing: true, status: 201)
   end
 
   def render_500
@@ -52,6 +56,10 @@ class ApplicationController < ActionController::API
 
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:sign_up)
+  end
+
+  def current_user
+    User.first
   end
 
   def admin?
