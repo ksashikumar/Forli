@@ -1,0 +1,2 @@
+development: <%= ENV['AKISMET_API_KEY'] %>
+production: <%= ENV['AKISMET_API_KEY'] %>

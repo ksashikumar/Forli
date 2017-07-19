@@ -8,6 +8,7 @@ class CreateComments < ActiveRecord::Migration[5.1]
       t.references :user, index: true, foreign_key: true
       t.integer :commentable_id
       t.string  :commentable_type
+      t.boolean :spam
 
       t.timestamps
     end
@@ -15,5 +16,6 @@ class CreateComments < ActiveRecord::Migration[5.1]
     add_index :comments, :child_count
     add_index :comments, :commentable_id
     add_index :comments, :commentable_type
+    add_index :comments, :spam
   end
 end

@@ -1,4 +1,5 @@
 class Comment < ApplicationRecord
+  include SpamFilter::Util
 
   MAX_LEVEL = 15
 
@@ -12,6 +13,7 @@ class Comment < ApplicationRecord
   validate :validate_level
 
   after_create :update_parent, if: :parent_present?
+  after_commit :perform_spam_check, on: :create #, :if => :spam_filter_enabled?
 
   def calculate_level
     self.level = parent.level + 1
