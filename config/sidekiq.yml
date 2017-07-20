@@ -5,9 +5,9 @@ defaults: &defaults
   :logfile: ./log/sidekiq.log
   :timeout: 30
   :queues:
-    - [notification_worker]
-    - [vote_dump_worker]
-    - [spam_check_worker]
+    - [notification]
+    - [vote_dump]
+    - [spam_check]
 
 development:
   <<: *defaults

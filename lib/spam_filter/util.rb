@@ -21,7 +21,7 @@ module SpamFilter::Util
     spam_check_params[:spammable_id]   = self.id
     spam_check_params[:spammable_type] = self.class.to_s
 
-    SpamFilter::SpamCheckWorker.perform_async(spam_check_params)
+    SpamFilter::SpamCheckJob.perform_later(spam_check_params)
   end
 
   def spam_filter_enabled?
