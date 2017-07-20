@@ -1,0 +1,9 @@
+defaults: &defaults
+  host: http://localhost:9200
+  log: trace
+
+development:
+  <<: *defaults
+
+test:
+  <<: *defaults

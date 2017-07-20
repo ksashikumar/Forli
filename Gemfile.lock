@@ -69,6 +69,14 @@ GEM
     devise_token_auth (0.1.42)
       devise (> 3.5.2, <= 4.3)
       rails (< 6)
+    elasticsearch (5.0.4)
+      elasticsearch-api (= 5.0.4)
+      elasticsearch-transport (= 5.0.4)
+    elasticsearch-api (5.0.4)
+      multi_json
+    elasticsearch-transport (5.0.4)
+      faraday
+      multi_json
     erubi (1.6.0)
     faraday (0.12.1)
       multipart-post (>= 1.2, < 3)
@@ -237,6 +245,7 @@ DEPENDENCIES
   byebug
   dalli
   devise_token_auth
+  elasticsearch (= 5.0.4)
   kaminari
   listen (>= 3.0.5, < 3.2)
   mongoid
