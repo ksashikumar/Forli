@@ -15,6 +15,7 @@ class Comment < ApplicationRecord
   validate :validate_level
 
   after_create :update_parent, if: :parent_present?
+  after_create :update_comment_count
   after_commit :perform_spam_check, on: :create #, :if => :spam_filter_enabled?
 
   def calculate_level
@@ -31,6 +32,10 @@ class Comment < ApplicationRecord
   def update_parent
     parent_child_count = parent.child_count + 1
     parent.update_columns(child_count: parent_child_count)
+  end
+
+  def update_comment_count
+    commentable.class.update_counters(commentable.id, comments_count: 1)
   end
 
   private
