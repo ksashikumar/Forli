@@ -5,7 +5,7 @@ gem 'pg', '~> 0.18.3'
 gem 'puma'
 gem 'redis', '~> 3.0'
 gem 'bcrypt', '~> 3.1.7'
-gem 'rack-cors'
+gem 'rack-cors', :require => 'rack/cors'
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'active_model_serializers', '0.10.5'
 gem 'rubocop'

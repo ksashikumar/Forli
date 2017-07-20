@@ -21,6 +21,13 @@ module Forli
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 5.1
 
+    config.middleware.insert_before 0, Rack::Cors, :debug => true, :logger => (-> { Rails.logger }) do
+      allow do
+        origins '*'
+        resource '*', :headers => :any, :methods => [:get, :post, :put, :patch, :delete, :head, :options]
+      end
+    end
+
     config.middleware.use ActionDispatch::Session::CookieStore
     config.action_controller.action_on_unpermitted_parameters = :raise
 
