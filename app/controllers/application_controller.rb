@@ -35,7 +35,7 @@ class ApplicationController < ActionController::API
 
   def render_items
     root_key = cname.pluralize
-    render(json: @items, status: 200, root: root_key)
+    render(json: @items, status: 200, root: root_key, meta: count_meta_hash)
   end
 
   def render_201
@@ -71,6 +71,13 @@ class ApplicationController < ActionController::API
   def current_user
     # Temporary hack
     User.first
+  end
+
+  def count_meta_hash
+    {
+      total_pages: @items.total_pages,
+      total_count: @items.total_count
+    }
   end
 
   def akismet_request_params

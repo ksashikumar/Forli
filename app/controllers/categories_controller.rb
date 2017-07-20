@@ -43,7 +43,7 @@ class CategoriesController < ApplicationController
   end
 
   def load_objects
-    @items = Category.preload(:user).where(parent_id: nil)
+    @items = Category.preload(:user).where(parent_id: nil).page(params[:page] || 1).per(params[:limit] || 10)
   end
 
   def build_object

@@ -57,7 +57,7 @@ class CommentsController < ApplicationController
 
   def load_objects
     load_commentable
-    @items = Comment.preload(:user).where(parent_id: nil, commentable: @commentable)
+    @items = Comment.preload(:user).where(parent_id: nil, commentable: @commentable).page(params[:page] || 1).per(params[:limit] || 10)
   end
 
   def build_object

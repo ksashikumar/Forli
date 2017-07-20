@@ -46,7 +46,7 @@ class PostsController < ApplicationController
   def load_objects
     @parent = Discussion.find_by_id(params[:discussion_id])
     if @parent
-      @items = @parent.posts
+      @items = @parent.posts.page(params[:page] || 1).per(params[:limit] || 10)
     else
       render_404
     end
