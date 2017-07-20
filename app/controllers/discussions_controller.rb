@@ -21,6 +21,7 @@ class DiscussionsController < ApplicationController
   end
 
   def update
+    assign_tags
     if @item.update_attributes(cname_params)
       render_item
     else
@@ -40,7 +41,6 @@ class DiscussionsController < ApplicationController
 
   def load_object
     @item = Discussion.find_by_id(params[:id])
-    assign_tags
     render_404 unless @item
   end
 
@@ -49,15 +49,17 @@ class DiscussionsController < ApplicationController
   end
 
   def build_object
+    @tags = cname_params.extract!(:tags)[:tags]
     @item = Discussion.new(cname_params)
     assign_tags
   end
 
   def assign_tags
-    if cname_params[:tags].present?
-      cname_params.extract!(:tags)
-      tags = Tag.where(cname_params[:tags])
-      @item.tags = tags
+    if @tags
+      @tags.each do |tag_str|
+        tag = Tag.find_or_create_by(name: tag_str)
+        @item.tags << tag
+      end
     end
   end
 
