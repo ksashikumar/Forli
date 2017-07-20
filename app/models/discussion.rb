@@ -1,6 +1,8 @@
 class Discussion < ApplicationRecord
   include SpamFilter::Util
 
+  attr_accessor :request_url, :remote_ip, :referrer, :user_agent
+  
   validates_presence_of :title
 
   belongs_to :user

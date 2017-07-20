@@ -1,6 +1,8 @@
 class Post < ApplicationRecord
   include SpamFilter::Util
 
+  attr_accessor :request_url, :remote_ip, :referrer, :user_agent
+
   belongs_to :discussion
   belongs_to :user
   has_many :comments, as: :commentable

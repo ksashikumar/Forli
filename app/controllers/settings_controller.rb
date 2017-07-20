@@ -3,16 +3,16 @@ class SettingsController < ApplicationController
   # before_action :authenticate_user!, only: [:create, :update]
 
   def index
-    render(json: @items)
+    render_items
   end
 
   def show
-    render(json: @item)
+    render_item
   end
 
   def update
     if @item.update_attributes(cname_params)
-      render(json: @item)
+      render_item
     else
       render_errors(@item)
     end

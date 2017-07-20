@@ -28,6 +28,16 @@ class ApplicationController < ActionController::API
     render(nothing: true, status: 404)
   end
 
+  def render_item
+    root_key = cname
+    render(json: { root_key => @item }, status: 200)
+  end
+
+  def render_items
+    root_key = cname.pluralize
+    render(json: { root_key => @item }, status: 200)
+  end
+
   def render_201
     render(nothing: true, status: 201)
   end
@@ -59,7 +69,23 @@ class ApplicationController < ActionController::API
   end
 
   def current_user
+    # Temporary hack
     User.first
+  end
+
+  def akismet_request_params
+    {
+      request_url: request.url,
+      remote_ip: request.remote_ip,
+      referrer: request.referrer,
+      user_agent: request.env['HTTP_USER_AGENT']
+    }
+  end
+
+  def assign_akismet_params
+    akismet_request_params.each do |key, value|
+      @item.send("#{key}=", value)
+    end
   end
 
   def admin?

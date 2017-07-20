@@ -3,28 +3,29 @@ class CommentsController < ApplicationController
   # before_action :authenticate_user!, only: [:create, :update]
 
   def create
+    assign_akismet_params
     @item.user = current_user if cname_params[:user_id].nil?
     if @item.save
-      render(json: @item)
+      render_item
     else
       render_errors(@item)
     end
   end
 
   def index
-    render(json: @items)
+    render_items
   end
 
   def children
   end
 
   def show
-    render(json: @item)
+    render_item
   end
 
   def update
     if @item.update_attributes(cname_params)
-      render(json: @item)
+      render_item
     else
       render_errors(@item)
     end

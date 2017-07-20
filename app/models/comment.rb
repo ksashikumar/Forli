@@ -1,6 +1,8 @@
 class Comment < ApplicationRecord
   include SpamFilter::Util
 
+  attr_accessor :request_url, :remote_ip, :referrer, :user_agent
+
   MAX_LEVEL = 15
 
   belongs_to :user

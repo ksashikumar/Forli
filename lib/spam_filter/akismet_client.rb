@@ -1,4 +1,4 @@
-class AkismetClient
+class SpamFilter::AkismetClient
   require 'net/http'
 
   attr_accessor :attributes
