@@ -35,7 +35,7 @@ class ApplicationController < ActionController::API
 
   def render_items
     root_key = cname.pluralize
-    render(json: { root_key => @item }, status: 200)
+    render(json: { root_key => @items }, status: 200)
   end
 
   def render_201
