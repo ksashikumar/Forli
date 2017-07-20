@@ -75,8 +75,7 @@ class ApplicationController < ActionController::API
 
   def count_meta_hash
     {
-      total_pages: @items.total_pages,
-      total_count: @items.total_count
+      count: @items.total_count
     }
   end
 
