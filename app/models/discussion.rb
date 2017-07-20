@@ -19,4 +19,16 @@ class Discussion < ApplicationRecord
     "#{title} #{description}"
   end
 
+  def add_tags(tag_names)
+    tag_names.each do |tag_name|
+      self.tags << Tag.find_or_create_by(name: tag_name)
+    end
+  end
+
+  def remove_tags(tag_names)
+    tag_names.each do |tag_name|
+      tag = Tag.find_by_name(tag_name)
+      self.discussion_tags.where(tag_id: tag.id).first.destroy
+    end
+  end
 end

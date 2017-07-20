@@ -21,7 +21,8 @@ class DiscussionsController < ApplicationController
   end
 
   def update
-    assign_tags
+    tag_params = cname_params.extract!(:tags)[:tags] if cname_params[:tags]
+    assign_tags(tag_params)
     if @item.update_attributes(cname_params)
       render_item
     else
@@ -49,17 +50,18 @@ class DiscussionsController < ApplicationController
   end
 
   def build_object
-    @tags = cname_params.extract!(:tags)[:tags]
+    tag_params = cname_params.extract!(:tags)[:tags] if cname_params[:tags]
     @item = Discussion.new(cname_params)
-    assign_tags
+    assign_tags(tag_params)
   end
 
-  def assign_tags
-    if @tags
-      @tags.each do |tag_str|
-        tag = Tag.find_or_create_by(name: tag_str)
-        @item.tags << tag
-      end
+  def assign_tags(tag_params)
+    if tag_params
+      item_tags = @item.tags.map(&:name)
+      tags_to_remove = item_tags - tag_params
+      tags_to_add = tag_params - item_tags
+      @item.add_tags(tags_to_add)
+      @item.remove_tags(tags_to_remove)
     end
   end
 
