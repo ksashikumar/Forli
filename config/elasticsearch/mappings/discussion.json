@@ -1,0 +1,63 @@
+{
+  "settings": {
+    "number_of_shards": 1
+  },
+  "mappings": {
+    "discussion": {
+      "properties": {
+        "id": {
+          "type": "long",
+          "index": "not_analyzed"
+        },
+        "user_id": {
+          "type": "long",
+          "index": "not_analyzed"
+        },
+        "title": {
+          "type": "string",
+          "analyzer": "full_text",
+          "search_analyzer": "full_text_search"
+        },
+        "description": {
+          "type": "string",
+          "analyzer": "full_text",
+          "search_analyzer": "full_text_search"
+        },
+        "category": {
+          "type": "string",
+          "analyzer": "full_text",
+          "search_analyzer": "full_text_search"
+        },
+        "tags" : {
+          "properties" : {
+              "name" : {
+                "type" : "string",
+                "analyzer": "full_text",
+                "search_analyzer": "full_text_search"
+              }
+          }
+        },
+        "locked": {
+          "type": "boolean"
+        },
+        "published": {
+          "type": "boolean"
+        },
+        "spam": {
+          "type": "boolean"
+        },
+        "deleted": {
+          "type": "boolean"
+        },
+        "created_at": {
+          "type": "date",
+          "index": "not_analyzed"
+        },
+        "updated_at": {
+          "type": "date",
+          "index": "not_analyzed"
+        }
+      }
+    }
+  }
+}

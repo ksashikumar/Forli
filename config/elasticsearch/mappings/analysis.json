@@ -1,0 +1,71 @@
+{
+  "filter": {
+    "min_length": {
+      "type": "length",
+      "min": 2
+    },
+    "max_length": {
+      "type": "length",
+      "min": 20
+    },
+    "word_delimiter": {
+      "type": "word_delimiter",
+      "preserve_original": "true"
+    },
+    "edge_ngram_filter": {
+      "type": "edgeNGram",
+      "min_gram": 2,
+      "max_gram": 20
+    },
+    "tag_edge_ngram": {
+      "type": "edgeNGram",
+      "min_gram": 2,
+      "max_gram": 32
+    }
+  },
+  "analyzer": {
+    "full_text": {
+      "type": "custom",
+      "tokenizer": "icu_tokenizer",
+      "filter": [
+        "min_length", "word_delimiter", "icu_normalizer", "icu_folding",
+        "edge_ngram_filter"
+      ]
+    },
+    "flat_full_text": {
+      "type": "custom",
+      "tokenizer": "whitespace",
+      "filter": [
+        "max_length", "lowercase", "edge_ngram_filter"
+      ]
+    },
+    "html_text": {
+      "type": "custom",
+      "tokenizer": "icu_tokenizer",
+      "char_filter": "html_strip",
+      "filter": [
+        "min_length", "word_delimiter", "icu_normalizer",
+        "icu_folding", "edge_ngram_filter"
+      ]
+    },
+    "tag_analyzer": {
+      "type": "custom",
+      "tokenizer": "icu_tokenizer",
+      "filter": [
+        "word_delimiter", "icu_normalizer", "icu_folding", "tag_edge_ngram"
+      ]
+    },
+    "full_text_search": {
+      "type": "custom",
+      "tokenizer": "whitespace",
+      "filter": [
+        "min_length", "word_delimiter", "icu_normalizer", "icu_folding"
+      ]
+    },
+    "flat_full_text_search": {
+      "type": "custom",
+      "tokenizer": "whitespace",
+      "filter": ["min_length", "lowercase"]
+    }
+  }
+}
