@@ -1,12 +1,15 @@
 require 'elasticsearch'
-config = YAML::load_file(File.join(Rails.root, 'config', 'infra/elasticsearch.yml'))[Rails.env]
+
+config_raw = File.read(File.join(Rails.root, 'config', 'infra/elasticsearch.yml'))
+config_erb = ERB.new(config_raw).result
+config     = YAML.load(config_erb)[Rails.env].deep_symbolize_keys
 
 mapping_json  = JSON.parse(File.read(Rails.root.join('config/elasticsearch/mappings/discussion.json')))
 template_json = File.read(Rails.root.join('config/elasticsearch/templates/discussion_search.json'))
 analysis_json = JSON.parse(File.read(Rails.root.join('config/elasticsearch/mappings/analysis.json')))
 mapping_json['settings']['analysis'] = analysis_json
 
-ES_CLIENT = Elasticsearch::Client.new(config.with_indifferent_access)
+ES_CLIENT = Elasticsearch::Client.new(config)
 
 DISCUSSION_INDEX_NAME = 'forli_discussions'
 
