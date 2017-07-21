@@ -1,4 +1,3 @@
-require 'redis-namespace'
 include Redis::Wrapper
 
 config_raw = File.read(File.join(Rails.root, 'config', 'infra/redis.yml'))

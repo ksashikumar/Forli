@@ -1,8 +1,10 @@
 class Discussion < ApplicationRecord
   include SpamFilter::Util
-  include Elasticsearch::Searchable
+  include Search::Searchable
 
-  attr_accessor :request_url, :remote_ip, :referrer, :user_agent
+  attr_accessor :request_url, :remote_ip, :referrer, :user_agent, :model_changes
+
+  searchkick callbacks: false
 
   validates_presence_of :title
 
@@ -14,6 +16,7 @@ class Discussion < ApplicationRecord
   has_many :tags, through: :discussion_tags
   has_many :notifications
 
+  before_save :set_model_changes # For search to get the model changes after_commit
   after_commit :perform_spam_check, on: :create #, :if => :spam_filter_enabled?
 
   def content
@@ -21,16 +24,31 @@ class Discussion < ApplicationRecord
   end
 
   def add_tags(tag_names)
+    self.model_changes = [:tags]
     tag_names.each do |tag_name|
       self.tags << Tag.find_or_create_by(name: tag_name)
     end
   end
 
   def remove_tags(tag_names)
+    self.model_changes = [:tags]
     tag_names.each do |tag_name|
       tag = Tag.find_by_name(tag_name)
       self.discussion_tags.where(tag_id: tag.id).first.destroy
     end
+  end
+
+  def tag_names
+    self.tags.map(&:name)
+  end
+
+  def set_model_changes
+    self.model_changes ||= []
+    self.model_changes += changes.keys.map(&:to_sym) if changes.present?
+  end
+
+  def search_data
+    es_document_payload
   end
 
   def es_document_payload
@@ -40,7 +58,7 @@ class Discussion < ApplicationRecord
       if column_value.class.to_s == "Tag::ActiveRecord_Associations_CollectionProxy"
         tags_arr  = []
         column_value.each do |value|
-          tags_arr << { name: value.name }
+          tags_arr << value.name
         end
         payload_hash.merge!(column => tags_arr)
       else
@@ -51,5 +69,6 @@ class Discussion < ApplicationRecord
   end
 
   def check_model_changes
+    (DiscussionConstants::ES_INDEX_COLUMNS - self.model_changes).present?
   end
 end

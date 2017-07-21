@@ -20,6 +20,11 @@ gem 'sidekiq'
 gem 'sinatra', require: false
 gem 'kaminari'
 gem 'elasticsearch', '5.0.4'
+gem 'searchkick'
+gem 'gemoji-parser'
+gem 'oj'
+gem 'typhoeus'
+gem 'google-cloud-language'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

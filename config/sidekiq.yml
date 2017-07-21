@@ -7,7 +7,7 @@ defaults: &defaults
     - [notification]
     - [vote_dump]
     - [spam_check]
-    - [es_indexer]
+    - [search_indexer]
 
 development:
   <<: *defaults

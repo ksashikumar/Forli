@@ -17,14 +17,12 @@ Rails.application.routes.draw do
             end
           end
           member do
-            put :hit
             put :upvote
             put :downvote
             put :view
           end
         end
         member do
-          put :hit
           put :upvote
           put :downvote
           put :view
@@ -33,6 +31,10 @@ Rails.application.routes.draw do
       resources :categories
       resources :tags
       resources :users
+
+      post '/search',               to: 'search#results'
+      post '/suggest/tags/',        to: 'search#suggested_tags'
+      post '/suggest/discussions/', to: 'search#suggested_discussions'
 
       resources :settings, only: [:update, :show, :index]
     end
