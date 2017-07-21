@@ -61,4 +61,7 @@ Rails.application.configure do
     # Other options can be found here: https://github.com/flyerhzm/bullet#configuration
   end
 
+  # bellow line enables the server to accept request based on orgin 
+  # Rails.application.config.action_cable.allowed_request_origins = ['https://forli.herokuapp.com']
+
 end
