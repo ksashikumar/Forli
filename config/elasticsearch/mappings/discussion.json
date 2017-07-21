@@ -23,11 +23,6 @@
           "analyzer": "full_text",
           "search_analyzer": "full_text_search"
         },
-        "category": {
-          "type": "string",
-          "analyzer": "full_text",
-          "search_analyzer": "full_text_search"
-        },
         "tags" : {
           "properties" : {
               "name" : {

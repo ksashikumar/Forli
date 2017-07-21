@@ -7,3 +7,6 @@ development:
 
 test:
   <<: *defaults
+
+production:
+   host: <%= ENV['ELASTICSEARCH_URL'] %>

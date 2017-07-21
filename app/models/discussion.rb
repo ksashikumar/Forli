@@ -1,8 +1,9 @@
 class Discussion < ApplicationRecord
   include SpamFilter::Util
+  include Elasticsearch::Searchable
 
   attr_accessor :request_url, :remote_ip, :referrer, :user_agent
-  
+
   validates_presence_of :title
 
   belongs_to :user
@@ -29,6 +30,14 @@ class Discussion < ApplicationRecord
     tag_names.each do |tag_name|
       tag = Tag.find_by_name(tag_name)
       self.discussion_tags.where(tag_id: tag.id).first.destroy
+    end
+  end
+
+  def es_document_payload
+    payload_hash = {}
+    ES_INDEX_COLUMNS.each do |column|
+      # column_value = self.send(column)
+      # payload_hash.merge!(column => )
     end
   end
 end
