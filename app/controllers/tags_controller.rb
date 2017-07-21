@@ -42,7 +42,7 @@ class TagsController < ApplicationController
   end
 
   def load_objects
-    @items = Tag.all
+    @items = Tag.page(params[:page] || 1).per(params[:limit] || 10)
   end
 
   def build_object
