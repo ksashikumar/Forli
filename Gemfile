@@ -4,6 +4,7 @@ gem 'rails', '~> 5.1.1'
 gem 'pg', '~> 0.18.3'
 gem 'puma'
 gem 'redis', '~> 3.0'
+gem 'redis-namespace'
 gem 'bcrypt', '~> 3.1.7'
 gem 'rack-cors', :require => 'rack/cors'
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]

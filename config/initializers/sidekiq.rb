@@ -1,7 +1,9 @@
-config = YAML::load_file(File.join(Rails.root, 'config', 'infra/sidekiq.yml'))[Rails.env]
+config_raw = File.read(File.join(Rails.root, 'config', 'sidekiq.yml'))
+config_erb = ERB.new(config_raw).result
+config     = YAML.load(config_erb)[Rails.env].deep_symbolize_keys
 
 redis_conn = proc {
-  Redis.new(:host => config["host"], :port => config["port"])
+  Redis.new(url: config[:url])
 }
 
 Sidekiq.configure_client do |config|

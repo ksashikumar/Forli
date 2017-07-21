@@ -3,7 +3,7 @@ module Elasticsearch::Searchable
 
   included do
     after_commit :create_in_es, on: :create
-    after_commit :update_in_es, on: :update
+    after_commit :update_in_es, on: :update, if: :check_model_changes
     after_commit :delete_in_es, on: :destroy
   end
 

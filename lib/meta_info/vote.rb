@@ -20,11 +20,11 @@ class MetaInfo::Vote
   def upvote!
     if hash_key_exists?
       if downvoted?
-        $redis.perform('hset', redis_key, hash_key, '1')
+        $redis.perform('HSET', redis_key, hash_key, '1')
         votable.update_counters(votable_id, upvotes_count: 1, downvotes_count: -1)
       end
     else
-      $redis.perform('hset', redis_key, hash_key, '1')
+      $redis.perform('HSET', redis_key, hash_key, '1')
       votable.update_counters(votable_id, upvotes_count: 1)
     end
   end
@@ -32,11 +32,11 @@ class MetaInfo::Vote
   def downvote!
     if hash_key_exists?
       if upvoted?
-        $redis.perform('hset', redis_key, hash_key, '0')
+        $redis.perform('HSET', redis_key, hash_key, '0')
         votable.update_counters(votable_id, downvotes_count: 1, upvotes_count: -1)
       end
     else
-      $redis.perform('hset', redis_key, hash_key, '0')
+      $redis.perform('HSET', redis_key, hash_key, '0')
       votable.update_counters(votable_id, downvotes_count: 1)
     end
   end

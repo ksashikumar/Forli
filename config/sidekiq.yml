@@ -1,6 +1,5 @@
 defaults: &defaults
-  :host: localhost
-  :port: 6379
+  :url: 'redis://localhost:6379'
   :verbose: true
   :logfile: ./log/sidekiq.log
   :timeout: 30
@@ -18,3 +17,4 @@ staging:
 
 production:
   <<: *defaults
+  url: <%= ENV['REDIS_URL'] %>

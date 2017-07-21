@@ -1,6 +1,7 @@
 defaults: &defaults
-  host: localhost
-  port: 6379
+  url: 'redis://localhost:6379'
+  namespace: 'forli_redis'
+  timeout: 5
 
 development:
   <<: *defaults
@@ -9,4 +10,5 @@ test:
   <<: *defaults
 
 production:
-  host: <%= ENV['REDIS_URL'] %>
+  <<: *defaults
+  url: <%= ENV['REDIS_URL'] %>
