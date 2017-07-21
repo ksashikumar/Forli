@@ -9,4 +9,4 @@ test:
   <<: *defaults
 
 production:
-   host: <%= ENV['ELASTICSEARCH_URL'] %>
+  host: <%= ENV['ELASTICSEARCH_URL'] %>
