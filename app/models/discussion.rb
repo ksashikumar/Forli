@@ -18,6 +18,8 @@ class Discussion < ApplicationRecord
   has_many :notifications
 
   before_save :set_model_changes # For search to get the model changes after_commit
+
+  after_save :update_reports_data
   after_commit :perform_spam_check, on: :create #, :if => :spam_filter_enabled?
   after_commit :perform_sentiment_analyze, on: :create #, :if => :sentiment_analyze_enabled?
 
@@ -42,6 +44,15 @@ class Discussion < ApplicationRecord
 
   def tag_names
     self.tags.map(&:name)
+  end
+
+  def update_reports_data
+    if saved_change_to_attribute?(:spam)
+      Reports::Data.update_spammed_count(spam)
+    end
+    if saved_change_to_attribute?(:published)
+      Reports::Data.update_unpublished_count(!published)
+    end
   end
 
   def set_model_changes

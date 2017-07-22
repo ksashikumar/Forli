@@ -37,6 +37,12 @@ Rails.application.routes.draw do
       resources :categories
       resources :tags
       resources :users
+      resources :reports, only: [:index] do
+        collection do
+          put :volume_trends
+          put :sentiment_trends
+        end
+      end
 
       resources :settings, only: [:update, :show, :index]
     end
