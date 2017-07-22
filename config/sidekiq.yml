@@ -18,4 +18,5 @@ staging:
 
 production:
   <<: *defaults
-  url: <%= ENV['REDIS_URL'] %>
+  :url: <%= ENV['REDIS_URL'] %>
+  :concurrency: <%= ENV['SIDEKIQ_CONCURRENCY'] %>
