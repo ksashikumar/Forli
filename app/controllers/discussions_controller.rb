@@ -46,7 +46,14 @@ class DiscussionsController < ApplicationController
   end
 
   def load_objects
-    @items = Discussion.preload(DiscussionConstants::DISCUSSION_PRELOAD).page(params[:page] || 1).per(params[:limit] || 10)
+    tag_ids = cname_params.extract!(:tag_ids)[:tag_ids] if cname_params[:tag_ids]
+    filter  = cname_params.extract!(:filter)[:filter] if cname_params[:filter]
+    if(tag_ids)
+      discussion_ids = DiscussionTag.select(:discussion_id).where('tag_id IN (?)', tag_ids.split(',')).map(&:discussion_id)
+      @items = Discussion.preload(DiscussionConstants::DISCUSSION_PRELOAD).where('id IN (?)', discussion_ids).page(params[:page] || 1).per(params[:limit] || 10)
+    else
+      @items = Discussion.preload(DiscussionConstants::DISCUSSION_PRELOAD).page(params[:page] || 1).per(params[:limit] || 10)
+    end
   end
 
   def build_object
