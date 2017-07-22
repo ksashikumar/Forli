@@ -46,7 +46,7 @@ class DiscussionsController < ApplicationController
   end
 
   def load_objects
-    @items = Discussion.preload([:user, :posts, :tags, :category]).page(params[:page] || 1).per(params[:limit] || 10)
+    @items = Discussion.preload(DiscussionConstants::DISCUSSION_PRELOAD).page(params[:page] || 1).per(params[:limit] || 10)
   end
 
   def build_object

@@ -26,15 +26,16 @@ Rails.application.routes.draw do
           put :upvote
           put :downvote
           put :view
+          post :similar, to: 'search#similar_discussions'
+        end
+        collection do
+          post :suggest, to: 'search#suggested_discussions'
+          post :search, to: 'search#results'
         end
       end
       resources :categories
       resources :tags
       resources :users
-
-      post '/search',               to: 'search#results'
-      post '/suggest/tags/',        to: 'search#suggested_tags'
-      post '/suggest/discussions/', to: 'search#suggested_discussions'
 
       resources :settings, only: [:update, :show, :index]
     end
