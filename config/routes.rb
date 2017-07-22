@@ -27,11 +27,11 @@ Rails.application.routes.draw do
           put :upvote
           put :downvote
           put :view
-          get :similar, to: 'search#similar_discussions'
+          put :similar, to: 'search#similar_discussions'
         end
         collection do
-          post :suggest, to: 'search#suggested_discussions'
-          post :search, to: 'search#results'
+          put :suggest, to: 'search#suggested_discussions'
+          put :search, to: 'search#results'
         end
       end
       resources :categories

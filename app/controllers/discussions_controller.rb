@@ -32,7 +32,7 @@ class DiscussionsController < ApplicationController
   end
 
   def destroy
-    if @item.destroy
+    if @item.update_attributes(delted: true)
       head 204
     else
       render_errors(@item)
