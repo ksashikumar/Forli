@@ -1,8 +1,7 @@
 defaults: &defaults
   :url: 'redis://localhost:6379'
   :verbose: true
-  :concurrency: 5
-  :logfile: ./log/sidekiq.log
+  :concurrency: 25
   :timeout: 30
   :queues:
     - [notification]
@@ -12,6 +11,7 @@ defaults: &defaults
 
 development:
   <<: *defaults
+  :logfile: log/sidekiq.log
 
 staging:
   <<: *defaults
