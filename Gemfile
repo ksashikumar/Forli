@@ -26,6 +26,7 @@ gem 'oj'
 gem 'typhoeus'
 gem 'algorithmia'
 gem 'newrelic_rpm'
+gem 'rails_autoscale_agent'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

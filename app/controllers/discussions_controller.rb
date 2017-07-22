@@ -5,6 +5,7 @@ class DiscussionsController < ApplicationController
   def create
     assign_akismet_params
     @item.user = current_user if cname_params[:user_id].nil?
+    @item.published = true # Manually doing it for now. Once we do admin_setting, this will be configurable
     if @item.save
       render_item
     else
