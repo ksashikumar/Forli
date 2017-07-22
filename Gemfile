@@ -24,7 +24,7 @@ gem 'searchkick'
 gem 'gemoji-parser'
 gem 'oj'
 gem 'typhoeus'
-gem 'google-cloud-language'
+gem 'algorithmia'
 gem 'newrelic_rpm'
 
 group :development, :test do

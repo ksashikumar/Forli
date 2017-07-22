@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170718175851) do
+ActiveRecord::Schema.define(version: 20170722101905) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -93,6 +93,7 @@ ActiveRecord::Schema.define(version: 20170718175851) do
     t.boolean "spam", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.float "sentiment", default: 0.0
     t.index ["category_id"], name: "index_discussions_on_category_id"
     t.index ["deleted"], name: "index_discussions_on_deleted"
     t.index ["published"], name: "index_discussions_on_published"

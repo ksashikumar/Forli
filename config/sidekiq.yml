@@ -8,6 +8,7 @@ defaults: &defaults
     - [vote_dump]
     - [spam_check]
     - [search_indexer]
+    - [sentiment_analyzer]
 
 development:
   <<: *defaults

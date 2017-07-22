@@ -1,0 +1,9 @@
+defaults: &defaults
+  api_key: simgrwy4KhSzcqsl8YZp/CbNmD/1
+  sentiment_algo: nlp/SentimentAnalysis/1.0.3
+
+development:
+  <<: *defaults
+
+production:
+  <<: *defaults

@@ -1,5 +1,6 @@
 class Discussion < ApplicationRecord
   include SpamFilter::Util
+  include Sentiment::Util
   include Search::Searchable
 
   attr_accessor :request_url, :remote_ip, :referrer, :user_agent, :model_changes
@@ -18,6 +19,7 @@ class Discussion < ApplicationRecord
 
   before_save :set_model_changes # For search to get the model changes after_commit
   after_commit :perform_spam_check, on: :create #, :if => :spam_filter_enabled?
+  after_commit :perform_sentiment_analyze, on: :create #, :if => :sentiment_analyze_enabled?
 
   def content
     "#{title} #{description}"
