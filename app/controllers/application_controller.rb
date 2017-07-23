@@ -70,6 +70,11 @@ class ApplicationController < ActionController::API
     devise_parameter_sanitizer.permit(:sign_up, keys: [:name])
   end
 
+  def current_user
+    # Temporary hack
+    User.first
+  end
+
   def count_meta_hash
     {
       count: @items.total_count
