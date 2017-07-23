@@ -68,6 +68,9 @@ The Sidekiq Web runs along with the Rails API server. To view the dashboard, go 
 - [`Akismet`](https://akismet.com) for Spam Filtering
 - [`Algorithmia`](https://algorithmia.com/algorithms/nlp/SentimentAnalysis) for Sentiment Analysis
 
+### ERD
+
+![forli-erd](https://github.com/ksashikumar/Forli/blob/master/public/Forli-ERD.jpg)
 
 ### Docker
 ```sh
