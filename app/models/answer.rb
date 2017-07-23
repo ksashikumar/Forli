@@ -19,6 +19,10 @@ class Answer < ApplicationRecord
     NOTIFIABLE_TYPE
   end
 
+  def view_count
+    MetaInfo::ViewCount.new(viewable_id: self.id, viewable_type: 'answer').count
+  end
+
   def increment_answer_count
     Reports::Data.update_unanswered_count(false) if (self.discussion.answers_count == 0)
     Discussion.update_counters(discussion_id, answers_count: 1)
