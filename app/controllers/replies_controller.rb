@@ -6,7 +6,7 @@ class RepliesController < ApplicationController
     assign_akismet_params
     @item.user = current_user if cname_params[:user_id].nil?
     if @item.save
-      render_item
+      render_item(cname.pluralize)
     else
       render_errors(@item)
     end
@@ -22,7 +22,7 @@ class RepliesController < ApplicationController
 
   def update
     if @item.update_attributes(cname_params)
-      render_item
+      render_item(cname.pluralize)
     else
       render_errors(@item)
     end
