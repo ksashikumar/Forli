@@ -2,17 +2,17 @@ module Concerns::DiscussionPost
 
   def upvote
     MetaInfo::Vote.new(vote_hash).upvote!
-    render_201
+    head 204
   end
 
   def downvote
     MetaInfo::Vote.new(vote_hash).downvote!
-    render_201
+    head 204
   end
 
   def view
     MetaInfo::ViewCount.new(view_count_hash).hit!
-    render_201
+    head 204
   end
 
   protected
