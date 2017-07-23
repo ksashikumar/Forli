@@ -35,7 +35,11 @@ Rails.application.routes.draw do
         end
       end
       resources :categories
-      resources :tags
+      resources :tags do
+        collection do
+          put :autocomplete
+        end
+      end
       resources :users
       resources :reports, only: [:index] do
         collection do

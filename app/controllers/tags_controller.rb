@@ -34,6 +34,11 @@ class TagsController < ApplicationController
     end
   end
 
+  def autocomplete
+    @items = Tag.name_like(params[:term]).page(1).per(10)
+    render_items
+  end
+
   protected
 
   def load_object
