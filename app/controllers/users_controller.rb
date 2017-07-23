@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
 
-  befor_action :admin?, only: [:index]
+  before_action :admin?, only: [:index]
 
   def index
     render_items
