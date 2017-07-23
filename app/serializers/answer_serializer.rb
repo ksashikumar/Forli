@@ -1,5 +1,5 @@
 class AnswerSerializer < BaseSerializer
-  attributes :content, :upvotes_count, :downvotes_count, :replies_count, :view_count
+  attributes :content, :upvotes_count, :downvotes_count, :replies_count, :view_count, :discussion_id
   belongs_to :user
   attribute :vote_action, if: :current_user
 

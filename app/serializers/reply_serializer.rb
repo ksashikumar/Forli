@@ -1,4 +1,4 @@
 class ReplySerializer < BaseSerializer
-  attributes :content
+  attributes :content, :answer_id
   belongs_to :user
 end
