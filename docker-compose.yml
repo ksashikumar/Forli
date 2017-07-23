@@ -1,43 +1,41 @@
 version: '2'
-volumes:
-  db-data:
-    driver: local
-  bundle:
-    driver: local
-  redis-data:
-    driver: local
 services:
   redis:
     image: redis
     ports:
       - '6379:6379'
     volumes:
-      - redis-data:/var/lib/redis/data
-  cache:
-    image: memcached:1.4-alpine
+      - .:/var/lib/redis/data
   db:
-    environment:
-      POSTGRES_USER:
-      POSTGRES_PASSWORD:
     image: postgres:9.4.5
     volumes:
-      - db-data:/usr/local/pgsql/data
-  # jobs:
-  #   env_file:
-  #   build: .
-  #   volumes:
-  #     - .:/var/www/forli
-  #   command:
-  #   depends_on:
-  #     - db
+      - .:/usr/local/pgsql/data
+  elasticsearch:
+    image: elasticsearch:5.5
+    volumes:
+      - .:/usr/share/elasticsearch/data
+  jobs:
+    build: .
+    command: bundle exec sidekiq -C config/sidekiq.yml
+    volumes:
+      - .:/forli
+    depends_on:
+      - db
+      - redis
+      - elasticsearch
   app:
-    # env_file:
     build: .
     command: bundle exec puma -C config/puma.rb
     volumes:
-      - /var/www/Forli
-      - bundle:/bundle
+      - .:/Forli
     ports:
       - "3000:3000"
     depends_on:
       - db
+      - redis
+      - elasticsearch
+  # ember:
+  #   build: .
+  #   command: ember serve
+  #   volumes:
+  #     - .:/forli/ember

@@ -19,7 +19,7 @@ module Concerns::DiscussionAnswer
 
   def vote_hash
     {
-      votable_id: params[:id],
+      votable_id: params[:id].to_i,
       votable_type: cname,
       user_id: current_user.id
     }
@@ -27,7 +27,7 @@ module Concerns::DiscussionAnswer
 
   def view_count_hash
     {
-      viewable_id: params[:id],
+      viewable_id: params[:id].to_i,
       viewable_type: cname
     }
   end

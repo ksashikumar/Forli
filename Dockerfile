@@ -1,18 +1,9 @@
 FROM ruby:2.4.1
 
-# set some rails env vars
-ENV RAILS_ENV production
-ENV BUNDLE_PATH /bundle
 
-# set the app directory var
-ENV APP_HOME /home/app
-WORKDIR $APP_HOME
-
-RUN rm -rf /etc/service/sshd /etc/my_init.d/00_regen_ssh_host_keys.sh
+FROM ruby:2.3.3
 
 RUN apt-get update -qq
-
-# Install apt dependencies
 
 RUN apt-get install -y --no-install-recommends --fix-missing \
   build-essential \
@@ -25,17 +16,17 @@ RUN apt-get install -y --no-install-recommends --fix-missing \
   libpq-dev \
   postgresql-client-9.4
 
+RUN mkdir /forli
+RUN mkdir /forli/ember
+
+WORKDIR /forli
+ADD Gemfile /forli/Gemfile
+ADD Gemfile.lock /forli/Gemfile.lock
+
 # install bundler
 RUN gem install bundler
 
-# Separate task from `add . .` as it will be
-# Skipped if gemfile.lock hasn't changed *
-COPY Gemfile Gemfile.lock ./
-
-# Install gems to /bundle
 RUN bundle install
-ADD . .
+ADD . /forli
 
-EXPOSE 3000
-
-CMD ["/sbin/my_init"]
+RUN rm -rf /etc/service/sshd /etc/my_init.d/00_regen_ssh_host_keys.sh

@@ -58,7 +58,7 @@ class SearchController < ApplicationController
 
   def similar_search_params
     {
-      fields: [:title, :description],
+      fields: [:title],
       where: default_where,
       page: 1,
       per_page: 10,
@@ -68,7 +68,7 @@ class SearchController < ApplicationController
 
   def suggested_search_params
     {
-      fields: [:title, :description],
+      fields: [:title],
       where: default_where,
       page: 1,
       per_page: 10,
