@@ -3,6 +3,7 @@
 ### Why Forli?
 The first settlement of the ancient Roman Forum was built in approximately 188 BC by consul *Gaius Livius Salinator*, who gave it the Latin name *Forum Livii*, meaning "the place of the gens Livia".
 
+
 ### Installation Guide (Please follow links)
 
 Forli requires:
@@ -41,6 +42,7 @@ $ bundle exec puma -C config/puma.rb -p 4000
 
 The Rails API server runs in `port: 4000`
 
+
 ### Frontend Setup
 
 Clone the Repo:
@@ -55,9 +57,17 @@ $ ember serve
 
 The Ember frontend server runs in `port: 5050`. Once `ember serve` command starts, go to: [`http://localhost:5050`](http://localhost:5050)
 
+
 ### Metrics
 
 The Sidekiq Web runs along with the Rails API server. To view the dashboard, go to: [`http://localhost:4000/sidekiq`](http://localhost:4000/sidekiq)
+
+
+### External Services
+
+- [`Akismet`](https://akismet.com) for Spam Filtering
+- [`Algorithmia`](https://algorithmia.com/algorithms/nlp/SentimentAnalysis) for Sentiment Analysis
+
 
 ### Docker
 ```sh
