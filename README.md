@@ -1,3 +1,5 @@
+[![Code Climate](https://codeclimate.com/github/ksashikumar/Forli.png)](https://codeclimate.com/github/ksashikumar/Forli)
+
 # Forli
 
 ### Why Forli?
