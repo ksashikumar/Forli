@@ -4,7 +4,6 @@ class AnswerSerializer < BaseSerializer
   attribute :vote_action, if: :current_user
 
   def vote_action
-    byebug
     vote_obj = MetaInfo::Vote.new(votable_id: object.id, votable_type: 'answer', user_id: current_user.id)
     if(vote_obj.upvoted?)
       return 2
