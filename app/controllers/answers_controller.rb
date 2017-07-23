@@ -1,5 +1,5 @@
-class PostsController < ApplicationController
-  include Concerns::DiscussionPost
+class AnswersController < ApplicationController
+  include Concerns::DiscussionAnswer
   # before_action :authenticate_user!, only: [:create, :update]
 
   def create
@@ -39,31 +39,31 @@ class PostsController < ApplicationController
   protected
 
   def load_object
-    @item = Post.find_by_id(params[:id])
+    @item = Answer.find_by_id(params[:id])
     render_404 unless @item
   end
 
   def load_objects
-    @parent = Discussion.find_by_id(params[:discussion_id])
-    if @parent
-      @items = @parent.posts.page(params[:page] || 1).per(params[:limit] || 10)
+    @discussion = Discussion.find_by_id(params[:discussion_id])
+    if @discussion
+      @items = @discussion.answers.page(params[:page] || 1).per(params[:limit] || 10)
     else
       render_404
     end
   end
 
   def build_object
-    @parent = Discussion.find_by_id(params[:discussion_id])
-    if @parent
-      @item = Post.new(cname_params)
-      @item.discussion = @parent
+    @discussion = Discussion.find_by_id(params[:discussion_id])
+    if @discussion
+      @item = Answer.new(cname_params)
+      @item.discussion = @discussion
     else
       render_404
     end
   end
 
   def allowed_params
-    "PostConstants::#{action_name.upcase}_FIELDS".constantize
+    "AnswerConstants::#{action_name.upcase}_FIELDS".constantize
   end
 
 end

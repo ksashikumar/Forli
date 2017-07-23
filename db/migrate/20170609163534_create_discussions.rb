@@ -7,8 +7,7 @@ class CreateDiscussions < ActiveRecord::Migration[5.1]
       t.column :category_id, "bigint"
       t.integer :upvotes_count, default: 0
       t.integer :downvotes_count, default: 0
-      t.integer :posts_count, default: 0
-      t.integer :comments_count, default: 0
+      t.integer :answers_count, default: 0
       t.integer :follows_count, default: 0
       t.integer :views, default: 0
       t.float :score, default: 0

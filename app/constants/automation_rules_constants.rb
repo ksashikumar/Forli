@@ -7,8 +7,8 @@ module AutomationRulesConstants
   WHEN_TYPES = [
     :discussion_create,
     :discussion_update,
-    :post_create,
-    :comment_create,
+    :answer_create,
+    :reply_create,
     :every_day
   ].freeze
 
@@ -31,8 +31,8 @@ module AutomationRulesConstants
     :spam_count,
     :discussion_title,
     :discussion_description,
-    :post_content,
-    :comment_content
+    :answer_content,
+    :reply_content
   ].freeze
 
   ACTION_TYPES = [
@@ -41,7 +41,7 @@ module AutomationRulesConstants
     :add_tag,
     :set_category,
     :send_email,
-    :add_post
+    :add_answer
   ].freeze
 
 end.freeze

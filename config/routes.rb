@@ -6,23 +6,14 @@ Rails.application.routes.draw do
   scope '/api' do
     scope '/v1' do
       resources :discussions do
-        resources :comments do
-          member do
-            get :children
-          end
-        end
-        resources :posts do
-          resources :comments do
-            member do
-              get :children
-            end
-          end
+        resources :answers do
           member do
             put :upvote
             put :downvote
             put :view
           end
         end
+        resources :replies
         member do
           put :upvote
           put :downvote

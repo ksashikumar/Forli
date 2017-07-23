@@ -36,8 +36,8 @@ class MetaInfo::ViewCount
       DISCUSSION_VIEW_COUNT % { discussion_id: viewable_id }
     end
 
-    def post_redis_key
-      POST_VIEW_COUNT % { post_id: viewable_id }
+    def answer_redis_key
+      ANSWER_VIEW_COUNT % { answer_id: viewable_id }
     end
 
     def increment_redis_count

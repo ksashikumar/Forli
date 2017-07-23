@@ -1,4 +1,4 @@
-module Concerns::DiscussionPost
+module Concerns::DiscussionAnswer
 
   def upvote
     MetaInfo::Vote.new(vote_hash).upvote!

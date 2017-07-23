@@ -2,8 +2,8 @@
 
 one:
   contact: MyText
-  post_id: one
+  answer_id: one
 
 two:
   contact: MyText
-  post_id: two
+  answer_id: two

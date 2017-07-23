@@ -1,5 +1,5 @@
 class DiscussionsController < ApplicationController
-  include Concerns::DiscussionPost
+  include Concerns::DiscussionAnswer
   # before_action :authenticate_user!, only: [:create, :update]
 
   def create

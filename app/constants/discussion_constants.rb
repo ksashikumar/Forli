@@ -7,6 +7,6 @@ module DiscussionConstants
   UPVOTE_FIELDS      = [:id].freeze
   DOWNVOTE_FIELDS    = [:id].freeze
   ES_INDEX_COLUMNS   = [:id, :user_id, :title, :description, :tags, :sentiment, :locked, :published, :spam, :deleted, :created_at, :updated_at].freeze
-  DISCUSSION_PRELOAD = [:user, :posts, :tags, :category].freeze
+  DISCUSSION_PRELOAD = [:user, :answers, :tags, :category].freeze
   FILTERS            = [:trending, :latest, :featured, :unanswered]
 end.freeze

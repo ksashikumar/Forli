@@ -24,6 +24,26 @@ ActiveRecord::Schema.define(version: 20170722101905) do
     t.index ["type"], name: "index_admin_settings_on_type", unique: true
   end
 
+  create_table "answers", force: :cascade do |t|
+    t.text "content", null: false
+    t.bigint "user_id"
+    t.bigint "discussion_id"
+    t.integer "upvotes_count", default: 0
+    t.integer "downvotes_count", default: 0
+    t.integer "replies_count", default: 0
+    t.integer "views", default: 0
+    t.float "score", default: 0.0
+    t.boolean "deleted", default: false
+    t.boolean "spam", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["deleted"], name: "index_answers_on_deleted"
+    t.index ["discussion_id"], name: "index_answers_on_discussion_id"
+    t.index ["score"], name: "index_answers_on_score"
+    t.index ["spam"], name: "index_answers_on_spam"
+    t.index ["user_id"], name: "index_answers_on_user_id"
+  end
+
   create_table "automation_rules", force: :cascade do |t|
     t.string "name"
     t.text "description"
@@ -49,28 +69,12 @@ ActiveRecord::Schema.define(version: 20170722101905) do
     t.index ["user_id"], name: "index_categories_on_user_id"
   end
 
-  create_table "comments", force: :cascade do |t|
-    t.text "content", null: false
-    t.integer "level", default: 0
-    t.integer "parent_id"
-    t.integer "child_count", default: 0
-    t.bigint "user_id"
-    t.integer "commentable_id"
-    t.string "commentable_type"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["child_count"], name: "index_comments_on_child_count"
-    t.index ["commentable_id"], name: "index_comments_on_commentable_id"
-    t.index ["commentable_type"], name: "index_comments_on_commentable_type"
-    t.index ["parent_id"], name: "index_comments_on_parent_id"
-    t.index ["user_id"], name: "index_comments_on_user_id"
-  end
-
   create_table "discussion_tags", force: :cascade do |t|
     t.integer "discussion_id"
     t.integer "tag_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["discussion_id", "tag_id"], name: "index_discussion_tags_on_discussion_id_and_tag_id", unique: true
     t.index ["discussion_id"], name: "index_discussion_tags_on_discussion_id"
     t.index ["tag_id"], name: "index_discussion_tags_on_tag_id"
   end
@@ -82,8 +86,7 @@ ActiveRecord::Schema.define(version: 20170722101905) do
     t.bigint "category_id"
     t.integer "upvotes_count", default: 0
     t.integer "downvotes_count", default: 0
-    t.integer "posts_count", default: 0
-    t.integer "comments_count", default: 0
+    t.integer "answers_count", default: 0
     t.integer "follows_count", default: 0
     t.integer "views", default: 0
     t.float "score", default: 0.0
@@ -112,24 +115,16 @@ ActiveRecord::Schema.define(version: 20170722101905) do
     t.index ["discussion_id"], name: "index_notifications_on_discussion_id"
   end
 
-  create_table "posts", force: :cascade do |t|
+  create_table "replies", force: :cascade do |t|
     t.text "content", null: false
     t.bigint "user_id"
-    t.bigint "discussion_id"
-    t.integer "upvotes_count", default: 0
-    t.integer "downvotes_count", default: 0
-    t.integer "comments_count", default: 0
-    t.integer "views", default: 0
-    t.float "score", default: 0.0
-    t.boolean "deleted", default: false
+    t.bigint "answer_id"
     t.boolean "spam", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["deleted"], name: "index_posts_on_deleted"
-    t.index ["discussion_id"], name: "index_posts_on_discussion_id"
-    t.index ["score"], name: "index_posts_on_score"
-    t.index ["spam"], name: "index_posts_on_spam"
-    t.index ["user_id"], name: "index_posts_on_user_id"
+    t.index ["answer_id"], name: "index_replies_on_answer_id"
+    t.index ["spam"], name: "index_replies_on_spam"
+    t.index ["user_id"], name: "index_replies_on_user_id"
   end
 
   create_table "tags", force: :cascade do |t|
@@ -187,7 +182,7 @@ ActiveRecord::Schema.define(version: 20170722101905) do
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.string "unconfirmed_email"
-    t.string "name"
+    t.string "name", null: false
     t.string "nickname"
     t.string "image"
     t.string "email"
@@ -201,15 +196,17 @@ ActiveRecord::Schema.define(version: 20170722101905) do
     t.datetime "updated_at", null: false
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["name"], name: "index_users_on_name", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
 
+  add_foreign_key "answers", "discussions"
+  add_foreign_key "answers", "users"
   add_foreign_key "categories", "users"
-  add_foreign_key "comments", "users"
   add_foreign_key "discussions", "categories"
   add_foreign_key "discussions", "users"
   add_foreign_key "notifications", "discussions"
-  add_foreign_key "posts", "discussions"
-  add_foreign_key "posts", "users"
+  add_foreign_key "replies", "answers"
+  add_foreign_key "replies", "users"
 end

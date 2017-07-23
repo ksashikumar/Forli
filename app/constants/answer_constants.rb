@@ -1,4 +1,4 @@
-module PostConstants
+module AnswerConstants
   CREATE_FIELDS   = [:content, :discussion_id, :user_id, mentions: []].freeze
   UPDATE_FIELDS   = [:content, :discussion_id, :user_id, mentions: []].freeze
   SHOW_FIELDS     = [:id].freeze
