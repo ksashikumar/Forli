@@ -44,21 +44,21 @@ class AnswersController < ApplicationController
   end
 
   def load_objects
-    @discussion = Discussion.find_by_id(params[:discussion_id])
+    @discussion = Discussion.find_by_id(cname_params[:discussion_id])
     if @discussion
       @items = @discussion.answers.page(params[:page] || 1).per(params[:limit] || 10)
     else
-      render_404
+      render_400(:discussion_id, 'Missing param')
     end
   end
 
   def build_object
-    @discussion = Discussion.find_by_id(params[:discussion_id])
+    @discussion = Discussion.find_by_id(cname_params[:discussion_id])
     if @discussion
       @item = Answer.new(cname_params)
       @item.discussion = @discussion
     else
-      render_404
+      render_400(:discussion_id, 'Missing param')
     end
   end
 

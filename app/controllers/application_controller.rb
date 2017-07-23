@@ -28,6 +28,10 @@ class ApplicationController < ActionController::API
     render(nothing: true, status: 404)
   end
 
+  def render_400(field, message)
+    render(json: { field: field, message: message } , status: 400)
+  end
+
   def render_item
     root_key = cname
     render(json: @item, status: 200, root: root_key)

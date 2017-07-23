@@ -41,11 +41,13 @@ class RepliesController < ApplicationController
   def load_answer
     @answer = if cname_params[:answer_id]
       Answer.find_by_id(cname_params[:answer_id])
+    else
+      render_400(:answer_id, 'Missing param')
     end
-    render_404 unless @answer
   end
 
   def load_object
+    load_answer
     @item = Reply.find_by_id(params[:id])
     render_404 unless @item
   end
@@ -53,10 +55,6 @@ class RepliesController < ApplicationController
   def load_objects
     load_answer
     @items = Reply.preload(:user).where(answer: @answer).page(params[:page] || 1).per(params[:limit] || 10)
-  end
-
-  def transform_params
-    answer_id = cname_params.extract!(:answer_id)[:answer_id]
   end
 
   def build_object

@@ -6,14 +6,6 @@ Rails.application.routes.draw do
   scope '/api' do
     scope '/v1' do
       resources :discussions do
-        resources :answers do
-          member do
-            put :upvote
-            put :downvote
-            put :view
-          end
-        end
-        resources :replies
         member do
           put :upvote
           put :downvote
@@ -25,6 +17,14 @@ Rails.application.routes.draw do
           put :search, to: 'search#results'
         end
       end
+      resources :answers do
+        member do
+          put :upvote
+          put :downvote
+          put :view
+        end
+      end
+      resources :replies
       resources :categories
       resources :tags do
         collection do
