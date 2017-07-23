@@ -24,7 +24,8 @@ module Forli
     config.middleware.insert_before 0, Rack::Cors, :debug => true, :logger => (-> { Rails.logger }) do
       allow do
         origins '*'
-        resource '*', :headers => :any, :methods => [:get, :post, :put, :patch, :delete, :head, :options]
+        resource '*', :headers => :any, :methods => [:get, :post, :put, :patch, :delete, :head, :options], 
+          :expose  => ['client', 'access-token', 'token-type', 'expiry', 'uid']
       end
     end
 

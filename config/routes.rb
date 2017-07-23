@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   mount Sidekiq::Web => '/sidekiq'
-  mount_devise_token_auth_for 'User', at: '/api/v1/auth'
+  mount_devise_token_auth_for 'User', at: '/api/v1/auths'
   mount ActionCable.server => '/cable'
 
   scope '/api' do
@@ -39,6 +39,7 @@ Rails.application.routes.draw do
       resources :users
 
       resources :settings, only: [:update, :show, :index]
+      resources :bootstrap, controller: 'bootstrap', only: :index
     end
   end
 end
