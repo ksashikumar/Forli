@@ -27,16 +27,22 @@ Rails.application.routes.draw do
           put :upvote
           put :downvote
           put :view
-          post :similar, to: 'search#similar_discussions'
+          put :similar, to: 'search#similar_discussions'
         end
         collection do
-          post :suggest, to: 'search#suggested_discussions'
-          post :search, to: 'search#results'
+          put :suggest, to: 'search#suggested_discussions'
+          put :search, to: 'search#results'
         end
       end
       resources :categories
       resources :tags
       resources :users
+      resources :reports, only: [:index] do
+        collection do
+          put :volume_trends
+          put :sentiment_trends
+        end
+      end
 
       resources :settings, only: [:update, :show, :index]
       resources :bootstrap, controller: 'bootstrap', only: :index

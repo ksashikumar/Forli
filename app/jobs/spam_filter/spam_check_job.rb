@@ -14,7 +14,11 @@ class SpamFilter::SpamCheckJob < ApplicationJob
       options[:comment_author]       = spammable.user.name,
       options[:comment_author_email] = spammable.user.email
 
-      spammable.update_column(:spam, true) if SpamFilter::AkismetClient.spam?(options)
+      if SpamFilter::AkismetClient.spam?(options)
+        Reports::Data.update_spammed_count(true) unless spammable.spam
+        spammable.update_column(:spam, true)
+        spammable.reindex
+      end
     rescue Exception => e
       Rails.logger.error("Exception in spam_check: #{e.inspect}")
     end
