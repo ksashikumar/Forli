@@ -32,13 +32,11 @@ class ApplicationController < ActionController::API
     render(json: { field: field, message: message } , status: 400)
   end
 
-  def render_item
-    root_key = cname
+  def render_item(root_key = cname)
     render(json: @item, status: 200, root: root_key)
   end
 
-  def render_items
-    root_key = cname.pluralize
+  def render_items(root_key = cname.pluralize)
     render(json: @items, status: 200, root: root_key, meta: count_meta_hash)
   end
 
@@ -47,7 +45,7 @@ class ApplicationController < ActionController::API
   end
 
   def render_500
-    render(status: 500)
+    render(json: { message: 'Something went wrong in the server' }, status: 500)
   end
 
   def build_object

@@ -47,13 +47,11 @@ class DiscussionsController < ApplicationController
   end
 
   def load_objects
-    tag_ids = cname_params.extract!(:tag_ids)[:tag_ids] if cname_params[:tag_ids]
-    filter  = cname_params.extract!(:filter)[:filter] if cname_params[:filter]
-    if(tag_ids)
-      discussion_ids = DiscussionTag.select(:discussion_id).where('tag_id IN (?)', tag_ids.split(',')).map(&:discussion_id)
-      @items = Discussion.preload(DiscussionConstants::DISCUSSION_PRELOAD).where('id IN (?)', discussion_ids).page(params[:page] || 1).per(params[:limit] || 10)
+    condition = where_condition
+    if condition.present?
+      @items = Discussion.preload(DiscussionConstants::DISCUSSION_PRELOAD).where(condition).order('created_at desc').page(params[:page] || 1).per(params[:limit] || 10)
     else
-      @items = Discussion.preload(DiscussionConstants::DISCUSSION_PRELOAD).page(params[:page] || 1).per(params[:limit] || 10)
+      @items = Discussion.preload(DiscussionConstants::DISCUSSION_PRELOAD).order('created_at desc').page(params[:page] || 1).per(params[:limit] || 10)
     end
   end
 
@@ -70,6 +68,40 @@ class DiscussionsController < ApplicationController
       tags_to_add = tag_params - item_tags
       @item.add_tags(tags_to_add)
       @item.remove_tags(tags_to_remove)
+    end
+  end
+
+  def where_condition
+    tag_ids = cname_params.extract!(:tag_ids)[:tag_ids] if cname_params[:tag_ids]
+    filter  = cname_params.extract!(:filter)[:filter] if cname_params[:filter]
+    condition = []
+    if(tag_ids)
+      discussion_ids = DiscussionTag.select(:discussion_id).where('tag_id IN (?)', tag_ids.split(',')).map(&:discussion_id)
+      condition = ['id IN (?)', discussion_ids]
+    end
+    if(filter && DiscussionConstants::FILTERS.include?(filter.to_sym))
+      filter_condition = filter_condition(filter)
+      if filter_condition.present?
+        if condition.present?
+          cond = condition[0] + ' AND ' + filter_condition
+          condition[0] = cond
+        else
+          condition << filter_condition
+        end
+      end
+    end
+    condition
+  end
+
+  def filter_condition(filter)
+    case filter.to_sym
+    when :trending
+      avg_views = Discussion.average(:views) # Need to find optimized way!
+      "created_at > '#{5.days.ago}' AND views > #{avg_views}"
+    when :latest
+    when :featured
+    when :unanswered
+      'answers_count = 0'
     end
   end
 

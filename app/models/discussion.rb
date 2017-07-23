@@ -26,6 +26,10 @@ class Discussion < ApplicationRecord
     "#{title} #{description}"
   end
 
+  def view_count
+    MetaInfo::ViewCount.new(viewable_id: self.id, viewable_type: 'discussion').count
+  end
+
   def add_tags(tag_names)
     self.model_changes = [:tags]
     tag_names.each do |tag_name|

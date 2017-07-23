@@ -1,3 +1,3 @@
 class UserSerializer < BaseSerializer
-  attributes :name, :email, :image
+  attributes :name, :image, :karma, :last_seen
 end

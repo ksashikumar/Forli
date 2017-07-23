@@ -17,7 +17,7 @@ class RepliesController < ApplicationController
   end
 
   def show
-    render_item
+    render_item(cname.pluralize)
   end
 
   def update

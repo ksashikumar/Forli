@@ -49,7 +49,7 @@ class MetaInfo::ViewCount
     end
 
     def get_redis_count
-      $redis.perform('GET', key)
+      $redis.perform('GET', key) || 0
     end
 
     def viewable

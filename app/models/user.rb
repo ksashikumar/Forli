@@ -11,4 +11,8 @@ class User < ApplicationRecord
 
   has_many :user_notifications
   has_many :notifications, through: :user_notifications
+
+  scope :name_like, -> (name) {
+    where(["LOWER(name) LIKE LOWER(?)", "#{name}%"])
+  }
 end

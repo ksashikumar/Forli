@@ -31,7 +31,11 @@ Rails.application.routes.draw do
           put :autocomplete
         end
       end
-      resources :users
+      resources :users, only: [:index, :show, :update] do
+        collection do
+          put :autocomplete
+        end
+      end
       resources :reports, only: [:index] do
         collection do
           put :volume_trends
