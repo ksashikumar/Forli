@@ -14,7 +14,7 @@ class ApplicationController < ActionController::API
 
   # rescue_from StandardError, with: :render_500
 
-  before_action :load_object,  only: [:show, :update, :delete, :upvote, :downvote, :view]
+  before_action :load_object,  only: [:show, :update, :destroy, :upvote, :downvote, :view]
   before_action :load_objects, only: :index
   before_action :build_object, only: :create
   before_action :configure_permitted_parameters, if: :devise_controller?

@@ -43,7 +43,7 @@ Rails.application.routes.draw do
         end
       end
 
-      resources :notifications, only: [:index]
+      resources :notifications, only: [:index, :update]
       resources :settings, only: %i[update show index]
       resources :bootstrap, controller: 'bootstrap', only: :index
     end
