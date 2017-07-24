@@ -19,21 +19,25 @@ class Discussion < ApplicationRecord
   before_save :set_model_changes # For search to get the model changes after_commit
 
   after_save :update_reports_data
-  after_commit :perform_spam_check, on: :create #, :if => :spam_filter_enabled?
-  after_commit :perform_sentiment_analyze, on: :create #, :if => :sentiment_analyze_enabled?
+  after_commit :perform_spam_check, on: :create # , :if => :spam_filter_enabled?
+  after_commit :perform_sentiment_analyze, on: :create # , :if => :sentiment_analyze_enabled?
 
   def content
-    "#{title} #{description}"
+    "#{title} #{description_text}"
+  end
+
+  def description_text
+    Sanitize.clean(description)
   end
 
   def view_count
-    MetaInfo::ViewCount.new(viewable_id: self.id, viewable_type: 'discussion').count
+    MetaInfo::ViewCount.new(viewable_id: id, viewable_type: 'discussion').count
   end
 
   def add_tags(tag_names)
     self.model_changes = [:tags]
     tag_names.each do |tag_name|
-      self.tags << Tag.find_or_create_by(name: tag_name)
+      tags << Tag.find_or_create_by(name: tag_name)
     end
   end
 
@@ -41,12 +45,12 @@ class Discussion < ApplicationRecord
     self.model_changes = [:tags]
     tag_names.each do |tag_name|
       tag = Tag.find_by_name(tag_name)
-      self.discussion_tags.where(tag_id: tag.id).first.destroy
+      discussion_tags.where(tag_id: tag.id).first.destroy
     end
   end
 
   def tag_names
-    self.tags.map(&:name)
+    tags.map(&:name)
   end
 
   def update_reports_data
@@ -70,9 +74,9 @@ class Discussion < ApplicationRecord
   def es_document_payload
     payload_hash = {}
     DiscussionConstants::ES_INDEX_COLUMNS.each do |column|
-      column_value = self.send(column)
-      if column_value.class.to_s == "Tag::ActiveRecord_Associations_CollectionProxy"
-        tags_arr  = []
+      column_value = send(column)
+      if column_value.class.to_s == 'Tag::ActiveRecord_Associations_CollectionProxy'
+        tags_arr = []
         column_value.each do |value|
           tags_arr << value.name
         end
