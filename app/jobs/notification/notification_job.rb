@@ -1,5 +1,5 @@
 class Notification::NotificationJob < ApplicationJob
-  queue_as :Notification
+  queue_as :notification
 
   def perform(notification_id, user_id)
     notification = Notification.find notification_id

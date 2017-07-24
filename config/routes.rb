@@ -31,7 +31,7 @@ Rails.application.routes.draw do
           put :autocomplete
         end
       end
-      resources :users, only: [:index, :show, :update] do
+      resources :users, only: %i[index show update] do
         collection do
           put :autocomplete
         end
@@ -43,7 +43,8 @@ Rails.application.routes.draw do
         end
       end
 
-      resources :settings, only: [:update, :show, :index]
+      resources :notifications, only: [:index]
+      resources :settings, only: %i[update show index]
       resources :bootstrap, controller: 'bootstrap', only: :index
     end
   end
