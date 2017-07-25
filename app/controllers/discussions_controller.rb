@@ -18,6 +18,7 @@ class DiscussionsController < ApplicationController
   end
 
   def show
+    MetaInfo::ViewCount.new(view_count_hash).hit!
     render_item
   end
 

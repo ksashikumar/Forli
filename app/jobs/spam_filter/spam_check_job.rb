@@ -14,7 +14,7 @@ class SpamFilter::SpamCheckJob < ApplicationJob
     options[:comment_author_email] = spammable.user.email
 
     if SpamFilter::AkismetClient.spam?(options)
-      Reports::Data.update_spammed_count(true) unless spammable.spam
+      Reports::Data.update_spammed_count(true) if spammable.is_a?(Discussion) && spammable.spam
       spammable.update_column(:spam, true)
       spammable.reindex
       discussion = spammable_type == 'Discussion' ? spammable : spammable.discussion
