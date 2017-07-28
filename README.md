@@ -31,6 +31,7 @@ $ cd Forli
 $ bundle install
 $ bundle exec rake db:create
 $ bundle exec rake db:migrate
+$ bundle exec rake search:create_index # Make sure Elasticsearch is running
 ```
 
 Start all services:
