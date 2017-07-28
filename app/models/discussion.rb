@@ -5,7 +5,7 @@ class Discussion < ApplicationRecord
 
   attr_accessor :request_url, :remote_ip, :referrer, :user_agent, :model_changes
 
-  searchkick callbacks: false
+  searchkick callbacks: false, similarity: 'LMJelinekMercer'
 
   validates_presence_of :title
 
@@ -54,12 +54,8 @@ class Discussion < ApplicationRecord
   end
 
   def update_reports_data
-    if saved_change_to_attribute?(:spam)
-      Reports::Data.update_spammed_count(spam)
-    end
-    if saved_change_to_attribute?(:published)
-      Reports::Data.update_unpublished_count(!published)
-    end
+    Reports::Data.update_spammed_count(spam) if saved_change_to_attribute?(:spam)
+    Reports::Data.update_unpublished_count(!published) if saved_change_to_attribute?(:published)
   end
 
   def set_model_changes

@@ -1,6 +1,5 @@
 class SearchController < ApplicationController
-
-  before_action :load_object,  only: [:similar_discussions]
+  before_action :load_object, only: [:similar_discussions]
 
   def results
     @items = Discussion.search(params[:term], search_params)
@@ -47,10 +46,10 @@ class SearchController < ApplicationController
 
   def search_params
     {
-      fields: [:title, :description],
+      fields: %i[title description],
       where: default_where,
       page: params[:page] || 1,
-      per_page: 10,
+      per_page: params[:limit] || 10,
       includes: DiscussionConstants::DISCUSSION_PRELOAD,
       match: :phrase
     }
@@ -61,7 +60,7 @@ class SearchController < ApplicationController
       fields: [:title],
       where: default_where,
       page: 1,
-      per_page: 10,
+      per_page: params[:limit] || 10,
       includes: DiscussionConstants::DISCUSSION_PRELOAD
     }
   end
@@ -71,7 +70,7 @@ class SearchController < ApplicationController
       fields: [:title],
       where: default_where,
       page: 1,
-      per_page: 10,
+      per_page: params[:limit] || 10,
       load: false # Returns from ES itself
     }
   end
