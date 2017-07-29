@@ -46,7 +46,7 @@ class TagsController < ApplicationController
   end
 
   def load_objects
-    @items = Tag.page(params[:page] || 1).per(params[:limit] || 10)
+    @items = Tag.order('count desc').page(params[:page] || 1).per(params[:limit] || 10)
   end
 
   def build_object
