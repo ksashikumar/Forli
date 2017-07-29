@@ -9,10 +9,10 @@ module Search::Searchable
   private
 
   def create_in_es
-    Search::Indexer.perform_later(searchable_id: self.id, searchable_type: self.class.to_s)
+    Search::Indexer.perform_later(searchable_id: id, searchable_type: self.class.to_s)
   end
 
   def update_in_es
-    Search::Indexer.perform_later(searchable_id: self.id, searchable_type: self.class.to_s)
+    Search::Indexer.perform_later(searchable_id: id, searchable_type: self.class.to_s)
   end
 end

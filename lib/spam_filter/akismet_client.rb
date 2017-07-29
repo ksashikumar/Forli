@@ -8,19 +8,19 @@ class SpamFilter::AkismetClient
   end
 
   def self.valid_key?(attributes)
-    self.new(attributes).execute('verify-key')
+    new(attributes).execute('verify-key')
   end
 
   def self.spam?(attributes)
-    self.new(attributes).execute('comment-check') != "false"
+    new(attributes).execute('comment-check') != 'false'
   end
 
   def self.submit_spam(attributes)
-    self.new(attributes).execute('submit-spam')
+    new(attributes).execute('submit-spam')
   end
 
   def self.submit_ham(attributes)
-    self.new(attributes).execute('submit-ham')
+    new(attributes).execute('submit-ham')
   end
 
   def execute(command)

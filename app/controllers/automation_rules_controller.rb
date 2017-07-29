@@ -1,5 +1,4 @@
 class AutomationRulesController < ApplicationController
-
   # before_action :authenticate_user!, only: [:create, :update]
 
   def create
@@ -52,5 +51,4 @@ class AutomationRulesController < ApplicationController
   def allowed_params
     "AutomationRulesConstants::#{action_name.upcase}_FIELDS".constantize
   end
-
 end

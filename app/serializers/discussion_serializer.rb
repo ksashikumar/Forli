@@ -1,6 +1,6 @@
 class DiscussionSerializer < BaseSerializer
   attributes  :title, :description, :description_text, :upvotes_count, :downvotes_count,
-              :answers_count, :follows_count, :view_count, :user, :sentiment
+              :answers_count, :follows_count, :view_count, :user, :sentiment, :correct_answer_id
   belongs_to :user
   belongs_to :category
   has_many :answers

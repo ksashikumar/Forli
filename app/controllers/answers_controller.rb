@@ -37,15 +37,28 @@ class AnswersController < ApplicationController
     end
   end
 
+  def mark_correct
+    if current_user.id == @discussion.user_id
+      @discussion.update_column(:correct_answer_id, params[:id])
+    else
+      render_403
+    end
+  end
+
   protected
 
   def load_object
-    @item = Answer.find_by_id(params[:id])
+    load_parent
+    @item = @discussion.answers.find_by_id(params[:id])
     render_404 unless @item
   end
 
-  def load_objects
+  def load_parent
     @discussion = Discussion.find_by_id(cname_params[:discussion_id])
+  end
+
+  def load_objects
+    load_parent
     if @discussion
       @items = @discussion.answers.page(params[:page] || 1).per(params[:limit] || 10)
     else
@@ -54,7 +67,7 @@ class AnswersController < ApplicationController
   end
 
   def build_object
-    @discussion = Discussion.find_by_id(cname_params[:discussion_id])
+    load_parent
     if @discussion
       @item = Answer.new(cname_params)
       @item.discussion = @discussion
@@ -66,5 +79,4 @@ class AnswersController < ApplicationController
   def allowed_params
     "AnswerConstants::#{action_name.upcase}_FIELDS".constantize
   end
-
 end

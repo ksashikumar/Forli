@@ -70,9 +70,6 @@ GEM
       railties (>= 4.1.0, < 5.2)
       responders
       warden (~> 1.2.3)
-    devise_token_auth (0.1.42)
-      devise (> 3.5.2, <= 4.3)
-      rails (< 6)
     elasticsearch (5.0.4)
       elasticsearch-api (= 5.0.4)
       elasticsearch-transport (= 5.0.4)
@@ -275,7 +272,7 @@ DEPENDENCIES
   bunny
   byebug
   dalli
-  devise_token_auth
+  devise
   elasticsearch (= 5.0.4)
   gemoji-parser
   kaminari

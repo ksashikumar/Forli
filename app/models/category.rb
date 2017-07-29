@@ -1,5 +1,4 @@
 class Category < ApplicationRecord
-
   MAX_CHILDREN = 5
 
   belongs_to :user
@@ -22,11 +21,11 @@ class Category < ApplicationRecord
 
   def check_hierarchy
     if parent.parent_id.present?
-      self.errors.add(:parent, :not_allowed, message: 'Could not be associated')
+      errors.add(:parent, :not_allowed, message: 'Could not be associated')
       return false
     end
     if parent.child_count > MAX_CHILDREN
-      self.errors.add(:parent, :not_allowed, message: 'Numer of children limit reached')
+      errors.add(:parent, :not_allowed, message: 'Numer of children limit reached')
       return false
     end
   end
@@ -37,7 +36,8 @@ class Category < ApplicationRecord
   end
 
   private
-    def parent_present?
-      parent.present?
-    end
+
+  def parent_present?
+    parent.present?
+  end
 end

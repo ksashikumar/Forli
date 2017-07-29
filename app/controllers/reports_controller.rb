@@ -1,5 +1,4 @@
 class ReportsController < ApplicationController
-
   skip_before_action :load_objects
 
   def index
@@ -10,10 +9,10 @@ class ReportsController < ApplicationController
     search_term = if params[:term]
       params[:term]
     else
-      "*"
+      '*'
     end
     search_hash = volume_trends_hash
-    search_hash.merge!(fields: [:tags]) if search_term != "*"
+    search_hash[:fields] = [:tags] if search_term != '*'
     aggregated_response = Discussion.search(search_term, search_hash)
     response_array = construct_volume_array
 
@@ -21,7 +20,7 @@ class ReportsController < ApplicationController
       response_array[(24 - Time.parse(val[:key_as_string]).hour)] = val[:doc_count]
     end
 
-    render(json: {volume_trends: response_array}.to_json, status: 200)
+    render(json: { volume_trends: response_array }.to_json, status: 200)
   end
 
   def sentiment_trends
@@ -76,5 +75,4 @@ class ReportsController < ApplicationController
       end
     end
   end
-
 end

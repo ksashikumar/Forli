@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::API
-  include DeviseTokenAuth::Concerns::SetUserByToken
+  include ActionController::HttpAuthentication::Token::ControllerMethods
 
   # include ActionController::ImplicitRender
   # include ActionController::Helpers
@@ -14,22 +14,33 @@ class ApplicationController < ActionController::API
 
   # rescue_from StandardError, with: :render_500
 
-  before_action :load_object,  only: [:show, :update, :destroy, :upvote, :downvote, :view]
+  before_action :authenticate_action, only: %i[create update destroy me upvote downvote]
+
+  before_action :load_object,  only: %i[show update destroy upvote downvote view mark_correct]
   before_action :load_objects, only: :index
   before_action :build_object, only: :create
   before_action :configure_permitted_parameters, if: :devise_controller?
 
-  def render_errors(item, status=400)
+  def render_errors(item, _status = 400)
     # TODO: handle proper error response format
     render(json: item.errors, status: 400)
+  end
+
+  def render_403
+    render(nothing: true, status: 403)
+  end
+
+  def render_400(field, message)
+    render(json: { field: field, message: message }, status: 400)
   end
 
   def render_404
     render(nothing: true, status: 404)
   end
 
-  def render_400(field, message)
-    render(json: { field: field, message: message } , status: 400)
+  def render_unauthorized(realm = 'Application')
+    headers['WWW-Authenticate'] = %(Token realm="#{realm.delete('"')}")
+    render json: 'Bad credentials', status: :unauthorized
   end
 
   def render_item(root_key = cname)
@@ -48,11 +59,9 @@ class ApplicationController < ActionController::API
     render(json: { message: 'Something went wrong in the server' }, status: 500)
   end
 
-  def build_object
-  end
+  def build_object; end
 
-  def load_object
-  end
+  def load_object; end
 
   protected
 
@@ -70,9 +79,20 @@ class ApplicationController < ActionController::API
     devise_parameter_sanitizer.permit(:sign_up, keys: [:name])
   end
 
-  def current_user
-    # Temporary hack
-    User.first
+  def authenticate_action
+    authenticate_user_from_token || render_unauthorized
+    authenticate_user!
+  end
+
+  def authenticate_user_from_token
+    authenticate_with_http_token do |token, options|
+      user_email = options[:email].presence
+      user = user_email && User.find_by_email(user_email)
+
+      if user && Devise.secure_compare(user.tokens, token)
+        sign_in user, store: false
+      end
+    end
   end
 
   def count_meta_hash

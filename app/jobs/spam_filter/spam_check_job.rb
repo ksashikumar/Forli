@@ -10,7 +10,7 @@ class SpamFilter::SpamCheckJob < ApplicationJob
 
     options[:key] = Akismet::KEY
     options[:comment_content] = spammable.content
-    options[:comment_author]  = spammable.user.name,
+    options[:comment_author]  = spammable.user.name
     options[:comment_author_email] = spammable.user.email
 
     if SpamFilter::AkismetClient.spam?(options)

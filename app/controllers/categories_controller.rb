@@ -1,5 +1,4 @@
 class CategoriesController < ApplicationController
-
   # before_action :authenticate_user!, only: [:create, :update]
 
   def create
@@ -48,15 +47,13 @@ class CategoriesController < ApplicationController
 
   def build_object
     @item = Category.new(cname_params)
-    if cname_params[:parent_id]
-      parent = Category.find_by_id(cname_params[:parent_id])
-      render_404 unless parent
-      @item.parent = parent
-    end
+    return unless cname_params[:parent_id]
+    parent = Category.find_by_id(cname_params[:parent_id])
+    render_404 unless parent
+    @item.parent = parent
   end
 
   def allowed_params
     "CategoryConstants::#{action_name.upcase}_FIELDS".constantize
   end
-
 end

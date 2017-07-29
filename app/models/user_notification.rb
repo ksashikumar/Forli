@@ -6,7 +6,7 @@ class UserNotification < ApplicationRecord
 
   private
 
-    def send_notification
-      Notification::NotificationJob.perform_later(self.notification.id, self.id)
-    end
+  def send_notification
+    Notification::NotificationJob.perform_later(notification.id, id)
+  end
 end

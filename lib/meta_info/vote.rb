@@ -10,11 +10,11 @@ class MetaInfo::Vote
   end
 
   def upvoted?
-    return hash_value == '1'
+    hash_value == '1'
   end
 
   def downvoted?
-    return hash_value == '0'
+    hash_value == '0'
   end
 
   def upvote!
@@ -41,34 +41,32 @@ class MetaInfo::Vote
     end
   end
 
-  def dump_to_db
-  end
+  def dump_to_db; end
 
   private
 
-    def redis_key
-      USER_VOTE_HSET % { user_id: user_id }
-    end
+  def redis_key
+    format(USER_VOTE_HSET, user_id: user_id)
+  end
 
-    def hash_key
-      if votable_type == 'discussion'
-        "d_#{votable_id}"
-      elsif votable_type == 'post'
-        "p_#{votable_id}"
-      end
+  def hash_key
+    if votable_type == 'discussion'
+      "d_#{votable_id}"
+    elsif votable_type == 'post'
+      "p_#{votable_id}"
     end
+  end
 
-    def hash_key_exists?
-      # $redis.perform('HEXISTS', hash_key) - Should we consider this?
-      hash_value.present?
-    end
+  def hash_key_exists?
+    # $redis.perform('HEXISTS', hash_key) - Should we consider this?
+    hash_value.present?
+  end
 
-    def hash_value
-      @hash_value ||= $redis.perform('HGET', redis_key, hash_key)
-    end
+  def hash_value
+    @hash_value ||= $redis.perform('HGET', redis_key, hash_key)
+  end
 
-    def votable
-      Object.const_get(votable_type.camelize)
-    end
-
+  def votable
+    Object.const_get(votable_type.camelize)
+  end
 end

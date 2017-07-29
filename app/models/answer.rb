@@ -25,7 +25,7 @@ class Answer < ApplicationRecord
   end
 
   def increment_answer_count
-    Reports::Data.update_unanswered_count(false) if discussion.answers_count == 0
+    Reports::Data.update_unanswered_count(false) if discussion.answers_count.zero?
     Discussion.update_counters(discussion_id, answers_count: 1)
   end
 

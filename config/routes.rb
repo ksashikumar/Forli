@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   mount Sidekiq::Web => '/sidekiq'
-  mount_devise_token_auth_for 'User', at: '/api/v1/auths'
   mount ActionCable.server => '/cable'
+  devise_for :users, path: 'api/v1/', controllers: { sessions: 'sessions' }
 
   scope '/api' do
     scope '/v1' do
@@ -22,6 +22,7 @@ Rails.application.routes.draw do
           put :upvote
           put :downvote
           put :view
+          put :mark_correct
         end
       end
       resources :replies
@@ -31,9 +32,10 @@ Rails.application.routes.draw do
           put :autocomplete
         end
       end
-      resources :users, only: %i[index show update] do
+      resources :users, only: %i(index show update) do
         collection do
           put :autocomplete
+          get :me
         end
       end
       resources :reports, only: [:index] do
@@ -44,8 +46,7 @@ Rails.application.routes.draw do
       end
 
       resources :notifications, only: [:index, :update]
-      resources :settings, only: %i[update show index]
-      resources :bootstrap, controller: 'bootstrap', only: :index
+      resources :settings, only: %i(update show index)
     end
   end
 end

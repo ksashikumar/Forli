@@ -1,5 +1,4 @@
 class TagsController < ApplicationController
-
   # before_action :authenticate_user!, only: [:create, :update]
 
   def create
@@ -57,5 +56,4 @@ class TagsController < ApplicationController
   def allowed_params
     "TagConstants::#{action_name.upcase}_FIELDS".constantize
   end
-
 end

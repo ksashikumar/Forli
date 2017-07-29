@@ -1,5 +1,4 @@
 class SettingsController < ApplicationController
-
   # before_action :authenticate_user!, only: [:create, :update]
 
   def index
@@ -44,5 +43,4 @@ class SettingsController < ApplicationController
   def allowed_params
     "SettingsConstants::#{action_name.upcase}_FIELDS".constantize
   end
-
 end

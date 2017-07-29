@@ -1,6 +1,5 @@
 class UsersController < ApplicationController
-
-  before_action :admin?, only: [:index]
+  # before_action :admin?, only: [:index]
 
   def index
     render_items
@@ -15,6 +14,11 @@ class UsersController < ApplicationController
     render_items
   end
 
+  def me
+    @item = current_user
+    render_item
+  end
+
   protected
 
   def load_objects
@@ -25,5 +29,4 @@ class UsersController < ApplicationController
     @item = User.find_by_id(params[:id])
     render_404 unless @item
   end
-
 end

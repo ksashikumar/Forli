@@ -1,5 +1,7 @@
 class NotificationsController < ApplicationController
-  skip_before_action :load_object
+  skip_before_action :load_object, only: [:destroy]
+  before_action :authenticate_action
+  before_action :load_objects, only: [:index]
 
   def index
     render_items

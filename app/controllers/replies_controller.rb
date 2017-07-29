@@ -1,5 +1,4 @@
 class RepliesController < ApplicationController
-
   # before_action :authenticate_user!, only: [:create, :update]
 
   def create
@@ -66,5 +65,4 @@ class RepliesController < ApplicationController
   def allowed_params
     "ReplyConstants::#{action_name.upcase}_FIELDS".constantize
   end
-
 end

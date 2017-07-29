@@ -49,11 +49,15 @@ class DiscussionsController < ApplicationController
 
   def load_objects
     condition = where_condition
-    if condition.present?
-      @items = Discussion.preload(DiscussionConstants::DISCUSSION_PRELOAD).where(condition).order('created_at desc').page(params[:page] || 1).per(params[:limit] || 10)
-    else
-      @items = Discussion.preload(DiscussionConstants::DISCUSSION_PRELOAD).order('created_at desc').page(params[:page] || 1).per(params[:limit] || 10)
-    end
+    @items = if condition.present?
+               Discussion.preload(DiscussionConstants::DISCUSSION_PRELOAD)
+                         .where(condition).order('created_at desc').page(params[:page] || 1)
+                         .per(params[:limit] || 10)
+             else
+               Discussion.preload(DiscussionConstants::DISCUSSION_PRELOAD)
+                         .order('created_at desc').page(params[:page] || 1)
+                         .per(params[:limit] || 10)
+             end
   end
 
   def build_object
@@ -63,24 +67,23 @@ class DiscussionsController < ApplicationController
   end
 
   def assign_tags(tag_params)
-    if tag_params
-      item_tags = @item.tags.map(&:name)
-      tags_to_remove = item_tags - tag_params
-      tags_to_add = tag_params - item_tags
-      @item.add_tags(tags_to_add)
-      @item.remove_tags(tags_to_remove)
-    end
+    return unless tag_params
+    item_tags = @item.tags.map(&:name)
+    tags_to_remove = item_tags - tag_params
+    tags_to_add = tag_params - item_tags
+    @item.add_tags(tags_to_add)
+    @item.remove_tags(tags_to_remove)
   end
 
   def where_condition
     tag_ids = cname_params.extract!(:tag_ids)[:tag_ids] if cname_params[:tag_ids]
     filter  = cname_params.extract!(:filter)[:filter] if cname_params[:filter]
     condition = []
-    if(tag_ids)
+    if tag_ids
       discussion_ids = DiscussionTag.select(:discussion_id).where('tag_id IN (?)', tag_ids.split(',')).map(&:discussion_id)
       condition = ['id IN (?)', discussion_ids]
     end
-    if(filter && DiscussionConstants::FILTERS.include?(filter.to_sym))
+    if filter && DiscussionConstants::FILTERS.include?(filter.to_sym)
       filter_condition = filter_condition(filter)
       if filter_condition.present?
         if condition.present?

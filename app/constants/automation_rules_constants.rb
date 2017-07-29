@@ -43,5 +43,4 @@ module AutomationRulesConstants
     :send_email,
     :add_answer
   ].freeze
-
 end.freeze

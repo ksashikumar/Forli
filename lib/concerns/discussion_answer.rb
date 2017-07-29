@@ -1,5 +1,4 @@
 module Concerns::DiscussionAnswer
-
   def upvote
     MetaInfo::Vote.new(vote_hash).upvote!
     head 204
@@ -31,5 +30,4 @@ module Concerns::DiscussionAnswer
       viewable_type: cname
     }
   end
-
 end

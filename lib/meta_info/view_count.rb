@@ -28,32 +28,31 @@ class MetaInfo::ViewCount
 
   private
 
-    def key
-      send("#{viewable_type}_redis_key")
-    end
+  def key
+    send("#{viewable_type}_redis_key")
+  end
 
-    def discussion_redis_key
-      DISCUSSION_VIEW_COUNT % { discussion_id: viewable_id }
-    end
+  def discussion_redis_key
+    format(DISCUSSION_VIEW_COUNT, discussion_id: viewable_id)
+  end
 
-    def answer_redis_key
-      ANSWER_VIEW_COUNT % { answer_id: viewable_id }
-    end
+  def answer_redis_key
+    format(ANSWER_VIEW_COUNT, answer_id: viewable_id)
+  end
 
-    def increment_redis_count
-      $redis.perform('INCR', key)
-    end
+  def increment_redis_count
+    $redis.perform('INCR', key)
+  end
 
-    def reset_redis_count
-      $redis.perform('SET', key, 0)
-    end
+  def reset_redis_count
+    $redis.perform('SET', key, 0)
+  end
 
-    def get_redis_count
-      $redis.perform('GET', key).to_i
-    end
+  def get_redis_count
+    $redis.perform('GET', key).to_i
+  end
 
-    def viewable
-      Object.const_get(viewable_type.camelize)
-    end
-
+  def viewable
+    Object.const_get(viewable_type.camelize)
+  end
 end
