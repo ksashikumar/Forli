@@ -37,7 +37,7 @@ class Discussion < ApplicationRecord
   def add_tags(tag_names)
     self.model_changes = [:tags]
     tag_names.each do |tag_name|
-      tags << Tag.find_or_create_by(name: tag_name)
+      tags << Tag.find_or_create_by_name(tag_name)
     end
   end
 
