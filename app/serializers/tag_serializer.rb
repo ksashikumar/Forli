@@ -1,3 +1,3 @@
 class TagSerializer < BaseSerializer
-  attributes :name
+  attributes :name, :count
 end
