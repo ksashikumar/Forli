@@ -52,8 +52,8 @@ class MetaInfo::Vote
   def hash_key
     if votable_type == 'discussion'
       "d_#{votable_id}"
-    elsif votable_type == 'post'
-      "p_#{votable_id}"
+    elsif votable_type == 'answer'
+      "a_#{votable_id}"
     end
   end
 
