@@ -18,6 +18,6 @@ class Tag < ApplicationRecord
                  else
                    ['UPPER(name) = ?', options[:name].upcase]
                  end
-    first(conditions: conditions) || create(options)
+    self.where(conditions).first || create(options)
   end
 end
