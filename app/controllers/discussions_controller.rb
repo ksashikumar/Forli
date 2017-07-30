@@ -49,6 +49,7 @@ class DiscussionsController < ApplicationController
 
   def load_objects
     validate_filters
+    load_tag_filter if cname_params[:filter_id]
     condition = where_condition
     @items = if condition.present?
                Discussion.preload(DiscussionConstants::DISCUSSION_PRELOAD)
@@ -82,14 +83,18 @@ class DiscussionsController < ApplicationController
     @item.remove_tags(tags_to_remove)
   end
 
+  def load_tag_filter
+    filter_id = cname_params.extract!(:filter_id)[:filter_id] if cname_params[:filter_id]
+    @tag_filter = current_user.tag_filters.find_by_id(filter_id)
+    render_404 unless @tag_filter
+  end
+
   def where_condition
     tag_ids   = cname_params.extract!(:tag_ids)[:tag_ids] if cname_params[:tag_ids]
     filter    = cname_params.extract!(:filter)[:filter] if cname_params[:filter]
-    filter_id = cname_params.extract!(:filter_id)[:filter_id] if cname_params[:filter_id]
     condition = []
-    if filter_id
-      tag_filter = current_user.tag_filters.find_by_id(filter_id)
-      discussion_ids = DiscussionTag.select(:discussion_id).where('tag_id IN (?)', tag_filter.tag_ids).map(&:discussion_id)
+    if @tag_filter
+      discussion_ids = DiscussionTag.select(:discussion_id).where('tag_id IN (?)', @tag_filter.tag_ids).map(&:discussion_id)
       condition = ['id IN (?)', discussion_ids]
     end
     if tag_ids
