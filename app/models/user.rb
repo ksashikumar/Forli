@@ -23,6 +23,7 @@ class User < ApplicationRecord
 
   def set_preferences
     UserConstants::PREFERENCES.each do |preference|
+      self.preferences ||= {}
       self.preferences[preference.to_s] = 'true'
     end
   end

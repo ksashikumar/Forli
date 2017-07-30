@@ -15,7 +15,7 @@ class UsersController < ApplicationController
       render_item
     else
       render_errors(@item)
-    end    
+    end
   end
 
   def autocomplete
