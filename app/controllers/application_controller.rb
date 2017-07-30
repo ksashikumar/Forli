@@ -14,6 +14,8 @@ class ApplicationController < ActionController::API
 
   # rescue_from StandardError, with: :render_500
 
+  rescue_from ActionController::UnpermittedParameters, with: :render_unpermitted_params
+
   # before_action :authenticate_action, only: %i[create update destroy me upvote downvote]
 
   before_action :load_object,  only: %i[show update destroy upvote downvote view mark_correct]
@@ -36,6 +38,10 @@ class ApplicationController < ActionController::API
 
   def render_404
     render(nothing: true, status: 404)
+  end
+
+  def render_unpermitted_params
+    render(json: { message: "Unpermitted params found in request. Permitted params: #{allowed_params}" }, status: 400)
   end
 
   def render_unauthorized(realm = 'Application')
@@ -118,6 +124,10 @@ class ApplicationController < ActionController::API
     akismet_request_params.each do |key, value|
       @item.send("#{key}=", value)
     end
+  end
+
+  def check_current_user
+    current_user.id == params[:id]
   end
 
   def admin?

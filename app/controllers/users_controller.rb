@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   # before_action :admin?, only: [:index]
+  before_action :check_current_user, only: [:update]
 
   def index
     render_items
@@ -7,6 +8,14 @@ class UsersController < ApplicationController
 
   def show
     render_item
+  end
+
+  def update
+    if @item.update_attributes(cname_params)
+      render_item
+    else
+      render_errors(@item)
+    end    
   end
 
   def autocomplete
@@ -28,5 +37,9 @@ class UsersController < ApplicationController
   def load_object
     @item = User.find_by_id(params[:id])
     render_404 unless @item
+  end
+
+  def allowed_params
+    "UserConstants::#{action_name.upcase}_FIELDS".constantize
   end
 end

@@ -3,7 +3,7 @@ class CreateAdminSettings < ActiveRecord::Migration[5.1]
     create_table :admin_settings do |t|
       t.string :type
       t.boolean :enabled
-      t.text :data
+      t.hstore :data
 
       t.timestamps
     end

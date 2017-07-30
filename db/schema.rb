@@ -10,15 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170725175821) do
+ActiveRecord::Schema.define(version: 20170730044223) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "hstore"
 
   create_table "admin_settings", force: :cascade do |t|
     t.string "type"
     t.boolean "enabled"
-    t.text "data"
+    t.hstore "data"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["type"], name: "index_admin_settings_on_type", unique: true
@@ -49,8 +50,8 @@ ActiveRecord::Schema.define(version: 20170725175821) do
     t.text "description"
     t.boolean "match_all"
     t.integer "when"
-    t.text "filter_data"
-    t.text "action_data"
+    t.hstore "filter_data"
+    t.hstore "action_data"
     t.boolean "active", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -195,6 +196,7 @@ ActiveRecord::Schema.define(version: 20170725175821) do
     t.text "tokens"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.hstore "preferences"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["name"], name: "index_users_on_name", unique: true
