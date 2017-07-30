@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class BootstrapControllerTest < ActionDispatch::IntegrationTest
+class TagFilterTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end

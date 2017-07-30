@@ -44,7 +44,7 @@ Rails.application.routes.draw do
           put :sentiment_trends
         end
       end
-
+      resources :tag_filters
       resources :notifications, only: [:index, :update]
       resources :settings, only: %i(update show index)
     end

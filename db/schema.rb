@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170730044223) do
+ActiveRecord::Schema.define(version: 20170730103001) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -129,6 +129,16 @@ ActiveRecord::Schema.define(version: 20170730044223) do
     t.index ["user_id"], name: "index_replies_on_user_id"
   end
 
+  create_table "tag_filters", force: :cascade do |t|
+    t.string "name"
+    t.text "data"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name", "user_id"], name: "index_tag_filters_on_name_and_user_id", unique: true
+    t.index ["user_id"], name: "index_tag_filters_on_user_id"
+  end
+
   create_table "tags", force: :cascade do |t|
     t.string "name", limit: 30, null: false
     t.integer "count", default: 0
@@ -212,4 +222,5 @@ ActiveRecord::Schema.define(version: 20170730044223) do
   add_foreign_key "notifications", "discussions"
   add_foreign_key "replies", "answers"
   add_foreign_key "replies", "users"
+  add_foreign_key "tag_filters", "users"
 end

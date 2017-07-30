@@ -48,6 +48,7 @@ class DiscussionsController < ApplicationController
   end
 
   def load_objects
+    validate_filters
     condition = where_condition
     @items = if condition.present?
                Discussion.preload(DiscussionConstants::DISCUSSION_PRELOAD)
@@ -66,6 +67,12 @@ class DiscussionsController < ApplicationController
     assign_tags(tag_params)
   end
 
+  def validate_filters
+    render_403 if cname_params[:filter_id] && current_user.nil?
+    render_400(:tag_ids, 'Not allowed') if cname_params[:filter_id] && cname_params[:tag_ids]
+    render_400(:filter, 'Not allowed') if cname_params[:filter_id] && cname_params[:filter]
+  end
+
   def assign_tags(tag_params)
     return unless tag_params
     item_tags = @item.tags.map(&:name)
@@ -76,9 +83,15 @@ class DiscussionsController < ApplicationController
   end
 
   def where_condition
-    tag_ids = cname_params.extract!(:tag_ids)[:tag_ids] if cname_params[:tag_ids]
-    filter  = cname_params.extract!(:filter)[:filter] if cname_params[:filter]
+    tag_ids   = cname_params.extract!(:tag_ids)[:tag_ids] if cname_params[:tag_ids]
+    filter    = cname_params.extract!(:filter)[:filter] if cname_params[:filter]
+    filter_id = cname_params.extract!(:filter_id)[:filter_id] if cname_params[:filter_id]
     condition = []
+    if filter_id
+      tag_filter = current_user.tag_filters.find_by_id(filter_id)
+      discussion_ids = DiscussionTag.select(:discussion_id).where('tag_id IN (?)', tag_filter.tag_ids).map(&:discussion_id)
+      condition = ['id IN (?)', discussion_ids]
+    end
     if tag_ids
       discussion_ids = DiscussionTag.select(:discussion_id).where('tag_id IN (?)', tag_ids.split(',')).map(&:discussion_id)
       condition = ['id IN (?)', discussion_ids]
