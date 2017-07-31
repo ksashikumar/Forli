@@ -28,6 +28,15 @@ class UsersController < ApplicationController
     render_item
   end
 
+  def exists
+    if User.valid_name?(params[:user_name])
+      exists = User.name_exists?(params[:user_name])
+      render(json: { data: exists })
+    else
+      render_400(:user_name, 'Invalid value')
+    end
+  end
+
   protected
 
   def load_objects

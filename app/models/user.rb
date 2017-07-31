@@ -6,6 +6,11 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable,
          :confirmable, :trackable
 
+  validates_presence_of :name
+  validates_uniqueness_of :name, case_sensitive: false
+
+  validate :check_valid_name
+
   has_many :user_notifications
   has_many :notifications, through: :user_notifications
   has_many :tag_filters
@@ -17,6 +22,21 @@ class User < ApplicationRecord
   scope :name_like, ->(name) {
     where(["LOWER(name) LIKE LOWER(?) AND preferences -> 'allow_tagging' = 'true'", "#{name}%"])
   }
+
+  def self.valid_name?(name)
+    !name.include?(' ')
+  end
+
+  def self.name_exists?(name)
+    where(['LOWER(name) = LOWER(?)', name.to_s]).present?
+  end
+
+  def check_valid_name
+    if name.include?(' ')
+      errors.add(:name, :not_allowed, message: 'Should not have spaces')
+      false
+    end
+  end
 
   def ensure_tokens
     self.tokens = generate_authentication_token if tokens.blank?
@@ -40,11 +60,11 @@ class User < ApplicationRecord
     result_hash = {}
     self.preferences ||= {}
     UserConstants::PREFERENCES.each do |preference|
-      if self.preferences.key?(preference.to_s)
-        result_hash[preference] = (self.preferences[preference.to_s] == 'true')
-      else
-        result_hash[preference] = true
-      end
+      result_hash[preference] = if self.preferences.key?(preference.to_s)
+                                  (self.preferences[preference.to_s] == 'true')
+                                else
+                                  true
+                                end
     end
     result_hash
   end

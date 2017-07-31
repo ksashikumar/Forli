@@ -15,12 +15,4 @@ class Sentiment::Analyzer < ApplicationJob
   rescue Exception => e
     Rails.logger.error("Exception in sentiment_analyzer: #{e.inspect}")
   end
-
-  def algorithmia_options(object)
-    {
-      api_key: Algorithmia::API_KEY,
-      sentiment_algo: Algorithmia::SENTIMENT_ALGO,
-      content: object.content
-    }
-  end
 end

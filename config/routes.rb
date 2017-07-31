@@ -36,6 +36,7 @@ Rails.application.routes.draw do
         collection do
           put :autocomplete
           get :me
+          get :exists
         end
       end
       resources :reports, only: [:index] do
