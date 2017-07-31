@@ -1,6 +1,5 @@
 class AnswersController < ApplicationController
   include Concerns::DiscussionAnswer
-  before_action :authenticate_action, only: [:create, :update]
 
   def create
     assign_akismet_params

@@ -1,6 +1,5 @@
 class DiscussionsController < ApplicationController
   include Concerns::DiscussionAnswer
-  # before_action :authenticate_user!, only: [:create, :update]
 
   def create
     assign_akismet_params

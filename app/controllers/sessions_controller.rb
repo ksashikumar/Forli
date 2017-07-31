@@ -2,14 +2,14 @@ class SessionsController < Devise::SessionsController
   skip_before_action :authenticate_action
 
   def create
-    super do |user|
-      if request.format.json?
-        data = {
-          token: user.tokens,
-          email: user.email
-        }
-        render(json: data, status: 201) && return
-      end
+    self.resource = warden.authenticate!(auth_options)
+    sign_in(resource_name, resource)
+    if request.format.json?
+      data = {
+        token: resource.tokens,
+        email: resource.email
+      }
+      render(json: data, status: 201)
     end
   end
 
