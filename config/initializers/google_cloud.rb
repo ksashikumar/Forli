@@ -1,7 +1,7 @@
 module GoogleCloud
   config_raw = File.read(File.join(Rails.root, 'config', 'forli/google_cloud.yml'))
   config_erb = ERB.new(config_raw).result
-  config     = YAML.safe_load(config_erb)[Rails.env].deep_symbolize_keys
+  config     = YAML.load(config_erb)[Rails.env].deep_symbolize_keys
 
   KEYFILE = config[:keyfile]
   PROJECT = config[:project]
