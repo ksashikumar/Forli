@@ -1,0 +1,10 @@
+defaults: &defaults
+  keyfile: <%= ENV['GOOGLE_CLOUD_KEY_FILE'] %>
+  project: <%= ENV['GOOGLE_CLOUD_PROJECT'] %>
+  keyfile_content: <%= ENV['GOOGLE_KEYFILE_CONTENT'] %>
+
+development:
+  <<: *defaults
+
+production:
+  <<: *defaults
