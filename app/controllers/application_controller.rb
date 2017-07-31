@@ -16,7 +16,7 @@ class ApplicationController < ActionController::API
 
   rescue_from ActionController::UnpermittedParameters, with: :render_unpermitted_params
 
-  # before_action :authenticate_action, only: %i[create update destroy me upvote downvote]
+  before_action :authenticate_action, only: %i[create update destroy me upvote downvote exists]
 
   before_action :load_object,  only: %i[show update destroy upvote downvote view mark_correct]
   before_action :load_objects, only: :index
@@ -101,10 +101,6 @@ class ApplicationController < ActionController::API
     end
   end
 
-  def current_user
-    User.first
-  end
-
   def count_meta_hash
     {
       count: @items.total_count
@@ -127,7 +123,7 @@ class ApplicationController < ActionController::API
   end
 
   def check_current_user
-    current_user.id == params[:id]
+    current_user && current_user.id == params[:id]
   end
 
   def admin?

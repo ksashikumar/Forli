@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  # before_action :admin?, only: [:index]
+  before_action :admin?, only: [:index]
   before_action :check_current_user, only: [:update]
 
   def index

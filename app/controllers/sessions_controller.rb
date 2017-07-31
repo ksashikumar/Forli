@@ -1,5 +1,5 @@
 class SessionsController < Devise::SessionsController
-  # skip_before_action :authenticate_action
+  skip_before_action :authenticate_action
 
   def create
     super do |user|

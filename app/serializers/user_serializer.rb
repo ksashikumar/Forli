@@ -8,6 +8,6 @@ class UserSerializer < BaseSerializer
   end
 
   def check_user
-    current_user.id ==  object.id
+    current_user && current_user.id ==  object.id
   end
 end

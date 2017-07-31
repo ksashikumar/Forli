@@ -1,5 +1,5 @@
 class SettingsController < ApplicationController
-  # before_action :authenticate_user!, only: [:create, :update]
+  before_action :authenticate_action, only: [:create, :update]
 
   def index
     render_items

@@ -1,5 +1,5 @@
 class AutomationRulesController < ApplicationController
-  # before_action :authenticate_user!, only: [:create, :update]
+  before_action :authenticate_action, only: [:create, :update]
 
   def create
     if @item.save
