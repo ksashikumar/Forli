@@ -30,6 +30,9 @@ module Forli
 
     # config.middleware.use ActionDispatch::Session::CookieStore
     # config.middleware.use ActionDispatch::Flash
+
+    config.middleware.use Rack::Deflater
+
     config.action_controller.action_on_unpermitted_parameters = :raise
 
     config.generators do |generator|
