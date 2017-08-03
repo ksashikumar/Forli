@@ -115,7 +115,7 @@ GEM
       googleauth (~> 0.5.1)
       grpc (~> 1.0)
       rly (~> 0.2.3)
-    google-protobuf (3.3.0-universal-darwin)
+    google-protobuf (3.3.0)
     googleapis-common-protos (1.3.5)
       google-protobuf (~> 3.2)
       grpc (~> 1.0)
@@ -127,7 +127,7 @@ GEM
       multi_json (~> 1.11)
       os (~> 0.9)
       signet (~> 0.7)
-    grpc (1.4.1-universal-darwin)
+    grpc (1.4.1)
       google-protobuf (~> 3.1)
       googleauth (~> 0.5.1)
     hashie (3.5.5)
@@ -276,6 +276,7 @@ GEM
       crass (~> 1.0.2)
       nokogiri (>= 1.4.4)
       nokogumbo (~> 1.4.1)
+    scout_apm (2.1.28)
     searchkick (2.3.1)
       activemodel (>= 4.1)
       elasticsearch (>= 1)
@@ -358,6 +359,7 @@ DEPENDENCIES
   redis-namespace
   rubocop
   sanitize
+  scout_apm
   searchkick
   sidekiq
   sinatra

@@ -26,6 +26,7 @@ gem 'redis', '~> 3.0'
 gem 'redis-namespace'
 gem 'rubocop'
 gem 'sanitize'
+gem 'scout_apm'
 gem 'searchkick'
 gem 'sidekiq'
 gem 'sinatra', require: false
