@@ -16,7 +16,7 @@ class ApplicationController < ActionController::API
 
   rescue_from ActionController::UnpermittedParameters, with: :render_unpermitted_params
 
-  before_action :authenticate_action, only: %i[create update destroy me upvote downvote exists]
+  before_action :authenticate_action, only: %i[create update destroy me upvote downvote  mark_correct exists]
 
   before_action :load_object,  only: %i[show update destroy upvote downvote view mark_correct]
   before_action :load_objects, only: :index
@@ -82,7 +82,7 @@ class ApplicationController < ActionController::API
   end
 
   def configure_permitted_parameters
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:name])
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:name, :email, :image])
   end
 
   def authenticate_action
