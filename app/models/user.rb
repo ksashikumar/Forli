@@ -4,7 +4,7 @@ class User < ApplicationRecord
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
-         :confirmable, :trackable
+         :trackable
 
   validates_presence_of :name
   validates_uniqueness_of :name, case_sensitive: false
@@ -17,6 +17,7 @@ class User < ApplicationRecord
 
   before_save :ensure_tokens
   before_create :set_preferences
+  before_create :set_uid #Temporary
 
   # Query users who only have allow_tagging enabled
   scope :name_like, ->(name) {
@@ -49,11 +50,19 @@ class User < ApplicationRecord
     end
   end
 
+  def set_uid
+    self.uid = email
+  end
+
   def generate_authentication_token
     loop do
       token = Devise.friendly_token
       break token unless User.where(tokens: token).first
     end
+  end
+
+  def send_devise_notification(notification, *args)
+    devise_mailer.send(notification, self, *args).deliver_later
   end
 
   def preferences_hash

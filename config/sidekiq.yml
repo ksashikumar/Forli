@@ -9,6 +9,7 @@ defaults: &defaults
     - [spam_check]
     - [search_indexer]
     - [sentiment_analyzer]
+    - [mailers]
 
 development:
   <<: *defaults

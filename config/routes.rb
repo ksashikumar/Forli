@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   mount Sidekiq::Web => '/sidekiq'
   mount ActionCable.server => '/cable'
-  devise_for :users, path: 'api/v1/', controllers: { sessions: 'sessions' }
+  devise_for :users, path: 'api/v1/', controllers: { sessions: 'sessions', registrations: 'registrations' }
 
   scope '/api' do
     scope '/v1' do
