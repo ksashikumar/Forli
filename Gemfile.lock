@@ -217,7 +217,7 @@ GEM
     public_suffix (2.0.5)
     puma (3.9.1)
     rack (2.0.3)
-    rack-cors (0.4.1)
+    rack-cors (1.0.0)
     rack-protection (2.0.0)
       rack
     rack-test (0.6.3)
@@ -354,7 +354,7 @@ DEPENDENCIES
   omniauth-google-oauth2
   pg (~> 0.18.3)
   puma
-  rack-cors
+  rack-cors (= 1.0.0)
   rails (~> 5.1.1)
   rails_autoscale_agent
   redis (~> 3.0)
@@ -371,4 +371,4 @@ DEPENDENCIES
   tzinfo-data
 
 BUNDLED WITH
-   1.15.2
+   1.17.3
