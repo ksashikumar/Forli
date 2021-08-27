@@ -28,7 +28,7 @@ gem 'rubocop'
 gem 'sanitize'
 gem 'scout_apm'
 gem 'searchkick'
-gem 'sidekiq'
+gem 'sidekiq', '>= 6.2.1'
 gem 'sinatra', require: false
 gem 'typhoeus'
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
