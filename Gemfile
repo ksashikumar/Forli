@@ -29,7 +29,7 @@ gem 'sanitize'
 gem 'scout_apm'
 gem 'searchkick'
 gem 'sidekiq'
-gem 'sinatra', require: false
+gem 'sinatra', '>= 2.2.3', require: false
 gem 'typhoeus'
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 
