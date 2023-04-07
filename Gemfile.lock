@@ -71,8 +71,8 @@ GEM
     cloudinary (1.8.1)
       aws_cf_signer
       rest-client
-    concurrent-ruby (1.0.5)
-    connection_pool (2.2.1)
+    concurrent-ruby (1.2.2)
+    connection_pool (2.4.0)
     crass (1.0.2)
     dalli (2.7.6)
     devise (4.3.0)
@@ -216,7 +216,7 @@ GEM
     powerpack (0.1.1)
     public_suffix (2.0.5)
     puma (3.9.1)
-    rack (2.0.3)
+    rack (2.2.6.4)
     rack-cors (0.4.1)
     rack-protection (2.0.0)
       rack
@@ -253,7 +253,9 @@ GEM
     rb-fsevent (0.9.8)
     rb-inotify (0.9.8)
       ffi (>= 0.5.0)
-    redis (3.3.3)
+    redis (3.3.5)
+    redis-client (0.14.1)
+      connection_pool
     redis-namespace (1.5.3)
       redis (~> 3.0, >= 3.0.4)
     responders (2.4.0)
@@ -282,11 +284,11 @@ GEM
       activemodel (>= 4.1)
       elasticsearch (>= 1)
       hashie
-    sidekiq (5.0.2)
-      concurrent-ruby (~> 1.0)
-      connection_pool (~> 2.2, >= 2.2.0)
-      rack-protection (>= 1.5.0)
-      redis (~> 3.3, >= 3.3.3)
+    sidekiq (7.0.8)
+      concurrent-ruby (< 2)
+      connection_pool (>= 2.3.0)
+      rack (>= 2.2.4)
+      redis-client (>= 0.11.0)
     signet (0.7.3)
       addressable (~> 2.3)
       faraday (~> 0.9)
@@ -363,7 +365,7 @@ DEPENDENCIES
   sanitize
   scout_apm
   searchkick
-  sidekiq
+  sidekiq (>= 7.0.8)
   sinatra
   spring
   spring-watcher-listen (~> 2.0.0)
@@ -371,4 +373,4 @@ DEPENDENCIES
   tzinfo-data
 
 BUNDLED WITH
-   1.15.2
+   1.17.3
