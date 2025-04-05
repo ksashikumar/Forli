@@ -27,7 +27,7 @@ gem 'redis-namespace'
 gem 'rubocop'
 gem 'sanitize'
 gem 'scout_apm'
-gem 'searchkick'
+gem 'searchkick', '>= 5.5.0'
 gem 'sidekiq'
 gem 'sinatra', require: false
 gem 'typhoeus'
