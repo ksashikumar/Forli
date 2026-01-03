@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'active_model_serializers', '0.10.5'
-gem 'algorithmia'
+gem 'algorithmia', '>= 1.1.0'
 gem 'bcrypt', '~> 3.1.7'
 gem 'bunny'
 gem 'carrierwave'
